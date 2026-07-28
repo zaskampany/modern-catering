@@ -200,11 +200,12 @@ body {
 /* ============ GALLERY (infinite collage carousel) ============ */
 .gallery { background: var(--paper); overflow: hidden; }
 /* Full-bleed carousel so tiles run edge to edge */
-.gallery__carousel { margin-top: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; gap: 14px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.gallery__carousel { margin-top: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; gap: 6px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .gallery__row { overflow: hidden; }
-.gallery__track { display: flex; gap: 14px; width: max-content; will-change: transform; }
+.gallery__track { display: flex; gap: 6px; width: max-content; will-change: transform; }
 .gallery__track--left { animation: gallery-scroll-left 55s linear infinite; }
-.gallery__track--right { animation: gallery-scroll-right 65s linear infinite; }
+/* Second row runs the same direction, slightly slower so they don't lockstep */
+.gallery__track--slow { animation-duration: 68s; }
 /* Pause the drift when a visitor wants a closer look */
 .gallery__carousel:hover .gallery__track { animation-play-state: paused; }
 
@@ -223,12 +224,8 @@ body {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-@keyframes gallery-scroll-right {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
 @media (prefers-reduced-motion: reduce) {
-  .gallery__track--left, .gallery__track--right { animation: none; }
+  .gallery__track--left { animation: none; }
   .gallery__row { overflow-x: auto; }
 }
 
@@ -331,21 +328,35 @@ body {
 .contact__details div { color: rgba(255,255,255,.85); font-size: .98rem; line-height: 1.75; }
 .contact__details a:hover { color: var(--gold-2); }
 
-.contact__form { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 1.2rem; align-content: start; }
+/* Raised card so the form reads as the clear call-to-action of the section */
+.contact__form {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; align-content: start;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  border: 1px solid rgba(255,255,255,.12);
+  border-top: 3px solid var(--gold-2);
+  border-radius: 16px;
+  padding: clamp(1.6rem, 3vw, 2.6rem);
+  box-shadow: 0 30px 70px rgba(0,0,0,.4);
+  backdrop-filter: blur(6px);
+}
 .field { display: flex; flex-direction: column; gap: .5rem; }
 .field--full { grid-column: 1 / -1; }
-.field label { font-family: var(--font-nav); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+.field label { font-family: var(--font-nav); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
 .field input, .field select, .field textarea {
-  font: inherit; font-size: .98rem; color: #fff; background: transparent;
-  border: none; border-bottom: 1px solid var(--line-light); border-radius: 0; padding: .6rem 0;
-  transition: border-color .25s;
+  font: inherit; font-size: .98rem; color: #fff;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.16); border-radius: 9px; padding: .72rem .9rem;
+  transition: border-color .25s, background .25s, box-shadow .25s;
 }
 .field textarea { resize: vertical; }
-.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.32); }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--gold-2); }
+.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.34); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--gold-2);
+  background: rgba(255,255,255,.08); box-shadow: 0 0 0 3px rgba(201,162,75,.2);
+}
 .field select { cursor: pointer; }
 .field select option { color: #111; }
-.contact__form .btn { grid-column: 1 / -1; margin-top: .5rem; }
+.contact__form .btn { grid-column: 1 / -1; margin-top: .6rem; }
 .contact__note { grid-column: 1/-1; color: var(--gold-2); font-size: .95rem; }
 
 /* ============ FOOTER ============ */

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IconWhatsApp, IconInstagram, IconFacebook, IconPhone, IconMail } from "@/components/Icons";
+import { site, telLink, mailLink, whatsappLink } from "@/lib/site";
 
 const links = [
   ["Home", "#home"],
@@ -44,19 +45,19 @@ export default function Nav() {
             Contact
           </a>
           <div className="nav__social">
-            <a href="https://wa.me/919447268441" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
               <IconWhatsApp />
             </a>
-            <a href="https://instagram.com/moderncatering" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href={site.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <IconInstagram />
             </a>
-            <a href="https://facebook.com/moderncatering" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <a href={site.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <IconFacebook />
             </a>
-            <a href="tel:+919447268441" aria-label="Call us">
+            <a href={telLink(site.phonePrimary)} aria-label="Call us">
               <IconPhone />
             </a>
-            <a href="mailto:moderncatering1997@gmail.com" aria-label="Email us">
+            <a href={mailLink(site.email)} aria-label="Email us">
               <IconMail />
             </a>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { whatsappLink } from "@/lib/site";
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -14,7 +15,7 @@ export default function ContactForm() {
       `Event: ${data.get("event") || "—"}%0A` +
       `Guests: ${data.get("guests") || "—"}%0A` +
       `Details: ${data.get("message") || "—"}`;
-    window.open(`https://wa.me/919447268441?text=${msg}`, "_blank", "noopener");
+    window.open(whatsappLink(msg), "_blank", "noopener");
     setSent(true);
     e.currentTarget.reset();
   };

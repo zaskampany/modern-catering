@@ -22,7 +22,7 @@ export default function Hero() {
           <em>Celebrations</em>
         </h1>
         <p className="hero__sub">
-          Weddings, receptions and every big day in between — served with bold
+          Weddings, receptions and every big day in between, served with bold
           flavour, effortless style and the warmth Kerala is known for.
         </p>
         <div className="hero__actions">

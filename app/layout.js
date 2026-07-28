@@ -24,12 +24,12 @@ const inter = Inter({
 
 export const metadata = {
   metadataBase: new URL("https://moderncatering.example"),
-  title: "Modern Catering — Taste the Celebration",
+  title: "Modern Catering | Taste the Celebration",
   description:
     "Premium event catering in Thrissur, Kerala. Weddings, live counters, buffets and full event management since 1997. Taste the Celebration.",
   icons: { icon: "/images/logo.png" },
   openGraph: {
-    title: "Modern Catering — Taste the Celebration",
+    title: "Modern Catering | Taste the Celebration",
     description:
       "Premium event catering in Thrissur, Kerala since 1997. Weddings, live counters, buffets & full event management.",
     images: ["/images/s304.jpg"],

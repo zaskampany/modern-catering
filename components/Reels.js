@@ -1,9 +1,10 @@
 "use client";
 import { useRef } from "react";
 import { IconPlay, IconInstagram } from "@/components/Icons";
+import { site } from "@/lib/site";
 
 // Point these at the matching Instagram reel URLs when available.
-const INSTAGRAM_REELS = "https://www.instagram.com/moderncatering/reels/";
+const INSTAGRAM_REELS = site.instagramReels;
 
 const reels = [
   { src: "/videos/reel1.mp4", poster: "/images/s301.jpg" },

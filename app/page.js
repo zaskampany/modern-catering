@@ -5,14 +5,15 @@ import Reels from "@/components/Reels";
 import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
 import { IconPin, IconPhone, IconMail, IconWhatsApp } from "@/components/Icons";
+import { site, telLink, mailLink, whatsappLink } from "@/lib/site";
 
 const services = [
   ["01", "Wedding Catering", "Your big day deserves a feast to match. From traditional sadhya to lavish multi-cuisine spreads, we make every plate memorable."],
   ["02", "Live Counters", "Freshly made, right before your eyes. Our chefs run interactive stations that turn dining into part of the entertainment."],
   ["03", "Buffet Service", "Stunning illuminated counters, thoughtful décor and a spread that keeps guests coming back for more."],
-  ["04", "Corporate & Events", "Product launches, retirements, school functions and office parties — handled with precision, polish and perfect timing."],
-  ["05", "Custom Menus", "Pure-veg, non-veg or regional favourites — we build a menu around your taste, your tradition and your budget."],
-  ["06", "Full Event Management", "Décor, seating, uniformed staff and clean-up — leave the logistics to us and simply enjoy your own celebration."],
+  ["04", "Corporate & Events", "Product launches, retirements, school functions and office parties, handled with precision, polish and perfect timing."],
+  ["05", "Custom Menus", "Pure-veg, non-veg or regional favourites. We build a menu around your taste, your tradition and your budget."],
+  ["06", "Full Event Management", "Décor, seating, uniformed staff and clean-up. Leave the logistics to us and simply enjoy your own celebration."],
 ];
 
 const menu = [
@@ -61,7 +62,7 @@ const menu = [
 ];
 
 const testimonials = [
-  ["The food was the highlight of our wedding. Every guest kept asking who the caterers were — flawless service from start to finish.", "Anjali & Rahul", "Wedding, Thrissur", "A"],
+  ["The food was the highlight of our wedding. Every guest kept asking who the caterers were, and the service was flawless from start to finish.", "Anjali & Rahul", "Wedding, Thrissur", "A"],
   ["Handled our office event for 400 people without a single hiccup. Punctual, professional and genuinely delicious.", "Deepak Menon", "Corporate Event", "D"],
   ["From the live counters to the desserts, everything was top class. The team treated our family like their own.", "Suja Thomas", "Reception, Kolazhy", "S"],
 ];
@@ -129,11 +130,11 @@ export default function Home() {
               <p>
                 Since 1997, <strong>Modern Catering</strong> has been a trusted name behind Kerala&apos;s
                 happiest occasions. What started as a small family kitchen now serves everything from
-                intimate get-togethers to weddings of a thousand guests — with the same care in every dish.
+                intimate get-togethers to weddings of a thousand guests, with the same care in every dish.
               </p>
               <p>
                 We keep it simple: authentic flavours, spotless presentation and a team that treats your
-                guests like their own. With us, the food isn&apos;t just part of the event — it&apos;s the part
+                guests like their own. With us, the food isn&apos;t just part of the event, it&apos;s the part
                 everyone remembers.
               </p>
               <ul className="about__list">
@@ -173,7 +174,7 @@ export default function Home() {
             <Reveal className="section__head">
               <p className="eyebrow">Our Menu</p>
               <h2 className="title">A feast for <em>every taste</em></h2>
-              <p className="section__lead">From an authentic Kerala sadhya to lavish multi-cuisine spreads — every menu is fully customisable. Here&apos;s a taste of what we serve.</p>
+              <p className="section__lead">From an authentic Kerala sadhya to lavish multi-cuisine spreads, every menu is fully customisable. Here&apos;s a taste of what we serve.</p>
             </Reveal>
             <div className="menu__grid">
               {menu.map(([cat, tag, items]) => (
@@ -203,7 +204,7 @@ export default function Home() {
             </Reveal>
           </div>
 
-          {/* Infinite collage carousel — two rows drifting in opposite directions */}
+          {/* Infinite collage carousel — two rows drifting the same direction */}
           <div className="gallery__carousel" aria-label="Gallery of catered events">
             <div className="gallery__row">
               <div className="gallery__track gallery__track--left">
@@ -216,7 +217,7 @@ export default function Home() {
               </div>
             </div>
             <div className="gallery__row">
-              <div className="gallery__track gallery__track--right">
+              <div className="gallery__track gallery__track--left gallery__track--slow">
                 {[...galleryRowBottom, ...galleryRowBottom].map(([img, alt], i) => (
                   <figure className={`gitem ${gSizes[((i % galleryRowBottom.length) + 2) % gSizes.length]}`} key={`b-${img}-${i}`} aria-hidden={i >= galleryRowBottom.length}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -234,7 +235,7 @@ export default function Home() {
             <Reveal className="section__head">
               <p className="eyebrow">In Motion</p>
               <h2 className="title">Straight From Our Events</h2>
-              <p className="section__lead">Real celebrations, real flavour — tap to watch.</p>
+              <p className="section__lead">Real celebrations, real flavour. Tap to watch.</p>
             </Reveal>
           </div>
           <Reels />
@@ -272,7 +273,7 @@ export default function Home() {
               <h2 className="title">A team that treats<br />your event like family</h2>
               <p>
                 Behind every seamless celebration is our dedicated team of chefs, service staff and
-                coordinators — trained, uniformed and passionate about hospitality. When you host with
+                coordinators, all trained, uniformed and passionate about hospitality. When you host with
                 Modern Catering, you get people who genuinely care that every guest leaves happy.
               </p>
               <a href="#contact" className="btn btn--dark">Work With Us</a>
@@ -294,19 +295,19 @@ export default function Home() {
               <ul className="contact__details">
                 <li>
                   <span className="contact__ico"><IconPin /></span>
-                  <div><strong>Visit Us</strong><br />Sivagiri Nagar, Doctor Padi,<br />Kolazhy, Thrissur, Kerala</div>
+                  <div><strong>Visit Us</strong><br />{site.addressLine1},<br />{site.addressLine2}</div>
                 </li>
                 <li>
                   <span className="contact__ico"><IconPhone /></span>
                   <div>
                     <strong>Call Us</strong><br />
-                    <a href="tel:+919447268441">+91 94472 68441</a><br />
-                    <a href="tel:+919497843441">+91 94978 43441</a>
+                    <a href={telLink(site.phonePrimary)}>{site.phonePrimaryDisplay}</a><br />
+                    <a href={telLink(site.phoneSecondary)}>{site.phoneSecondaryDisplay}</a>
                   </div>
                 </li>
                 <li>
                   <span className="contact__ico"><IconMail /></span>
-                  <div><strong>Email</strong><br /><a href="mailto:moderncatering1997@gmail.com">moderncatering1997@gmail.com</a></div>
+                  <div><strong>Email</strong><br /><a href={mailLink(site.email)}>{site.email}</a></div>
                 </li>
               </ul>
             </div>
@@ -332,24 +333,23 @@ export default function Home() {
           </div>
           <div className="footer__col">
             <h4>Contact</h4>
-            <a href="tel:+919447268441">+91 94472 68441</a>
-            <a href="tel:+919497843441">+91 94978 43441</a>
-            <span>Kolazhy, Thrissur, Kerala</span>
+            <a href={telLink(site.phonePrimary)}>{site.phonePrimaryDisplay}</a>
+            <a href={telLink(site.phoneSecondary)}>{site.phoneSecondaryDisplay}</a>
+            <span>{site.addressShort}</span>
           </div>
           <div className="footer__col">
             <h4>Follow</h4>
-            <a href="#" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href="#" target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href="https://wa.me/919447268441" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </div>
         <div className="footer__bar container">
           <span>© 2026 Modern Catering. All rights reserved.</span>
-          <span>FSSAI Lic. 11320008000498</span>
         </div>
       </footer>
 
-      <a href="https://wa.me/919447268441" className="fab" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+      <a href={whatsappLink()} className="fab" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
         <IconWhatsApp />
       </a>
     </>
