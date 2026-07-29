@@ -2,64 +2,14 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
 import Reels from "@/components/Reels";
+import Services from "@/components/Services";
+import Menu from "@/components/Menu";
 import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
 import { IconPin, IconPhone, IconMail, IconWhatsApp } from "@/components/Icons";
 import { site, telLink, mailLink, whatsappLink } from "@/lib/site";
 
-const services = [
-  ["01", "Wedding Catering", "Your big day deserves a feast to match. From traditional sadhya to lavish multi-cuisine spreads, we make every plate memorable."],
-  ["02", "Live Counters", "Freshly made, right before your eyes. Our chefs run interactive stations that turn dining into part of the entertainment."],
-  ["03", "Buffet Service", "Stunning illuminated counters, thoughtful décor and a spread that keeps guests coming back for more."],
-  ["04", "Corporate & Events", "Product launches, retirements, school functions and office parties, handled with precision, polish and perfect timing."],
-  ["05", "Custom Menus", "Pure-veg, non-veg or regional favourites. We build a menu around your taste, your tradition and your budget."],
-  ["06", "Full Event Management", "Décor, seating, uniformed staff and clean-up. Leave the logistics to us and simply enjoy your own celebration."],
-];
 
-const menu = [
-  ["Welcome & Starters", "Veg & Non-Veg", [
-    "Welcome drink & fresh cut fruits",
-    "Cream of vegetable soup",
-    "Chicken 65 · Chilli chicken",
-    "Gobi Manchurian · Paneer tikka",
-    "Kerala fish fry · Prawns roast",
-  ]],
-  ["Kerala Sadhya", "Pure Veg", [
-    "Matta rice · Parippu & ghee",
-    "Sambar · Rasam · Kaalan",
-    "Avial · Thoran · Olan",
-    "Pachadi · Kichadi · Pickles",
-    "Pappadam · Banana · Payasam",
-  ]],
-  ["Vegetarian Main", "Pure Veg", [
-    "Ghee rice · Veg biryani",
-    "Paneer butter masala",
-    "Vegetable kurma · Dal makhani",
-    "Chapathi · Butter naan · Porotta",
-    "Gobi 65 · Mushroom masala",
-  ]],
-  ["Non-Vegetarian", "Non-Veg", [
-    "Chicken dum biryani",
-    "Mutton curry · Beef ularthiyathu",
-    "Fish moilee · Chicken curry",
-    "Kerala chicken roast",
-    "Prawns masala · Egg roast",
-  ]],
-  ["Live Counters", "Interactive", [
-    "Dosa & appam station",
-    "Pasta & noodles counter",
-    "Chaat & pani puri",
-    "Grill & barbecue",
-    "Ice cream & falooda bar",
-  ]],
-  ["Desserts & Sweets", "Sweet", [
-    "Ada pradhaman · Palada payasam",
-    "Gulab jamun · Rasmalai",
-    "Fresh fruit salad with ice cream",
-    "Assorted pastries & cakes",
-    "Kulfi · Jalebi",
-  ]],
-];
 
 const testimonials = [
   ["The food was the highlight of our wedding. Every guest kept asking who the caterers were, and the service was flawless from start to finish.", "Anjali & Rahul", "Wedding, Thrissur", "A"],
@@ -113,6 +63,8 @@ export default function Home() {
       <main>
         <Hero />
 
+        {/* Sliding panel — content scrolls up over the pinned hero */}
+        <div className="stack">
         {/* ABOUT */}
         <section className="about section" id="about">
           <div className="container about__grid">
@@ -156,15 +108,7 @@ export default function Home() {
               <h2 className="title">Our Services</h2>
               <p className="section__lead">A complete catering experience, tailored to the moment you&apos;re celebrating.</p>
             </Reveal>
-            <div className="services__grid">
-              {services.map(([num, title, desc]) => (
-                <Reveal className="scard" as="article" key={num}>
-                  <span className="scard__num">{num}</span>
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
-                </Reveal>
-              ))}
-            </div>
+            <Services />
           </div>
         </section>
 
@@ -176,21 +120,7 @@ export default function Home() {
               <h2 className="title">A feast for <em>every taste</em></h2>
               <p className="section__lead">From an authentic Kerala sadhya to lavish multi-cuisine spreads, every menu is fully customisable. Here&apos;s a taste of what we serve.</p>
             </Reveal>
-            <div className="menu__grid">
-              {menu.map(([cat, tag, items]) => (
-                <Reveal className="mcat" as="article" key={cat}>
-                  <div className="mcat__head">
-                    <h3>{cat}</h3>
-                    <span className="mcat__tag">{tag}</span>
-                  </div>
-                  <ul>
-                    {items.map((dish) => (
-                      <li key={dish}>{dish}</li>
-                    ))}
-                  </ul>
-                </Reveal>
-              ))}
-            </div>
+            <Menu />
           </div>
         </section>
 
@@ -314,6 +244,7 @@ export default function Home() {
             <ContactForm />
           </div>
         </section>
+        </div>
       </main>
 
       {/* FOOTER */}
