@@ -38,6 +38,9 @@ export const metadata = {
 };
 
 export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover", // extend content edge-to-edge behind the status bar / browser chrome
   themeColor: "#101a30",
 };
 
