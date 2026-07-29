@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IconWhatsApp, IconInstagram, IconFacebook, IconPhone, IconMail } from "@/components/Icons";
-import { site, telLink, mailLink, whatsappLink } from "@/lib/site";
+import { site, mailLink, whatsappLink } from "@/lib/site";
 
 const links = [
   ["Home", "#home"],
@@ -63,9 +63,11 @@ export default function Nav() {
             <a href={site.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <IconFacebook />
             </a>
-            <a href={telLink(site.phonePrimary)} aria-label="Call us">
-              <IconPhone />
-            </a>
+            {site.phones[0] && (
+              <a href={site.phones[0].tel} aria-label="Call us">
+                <IconPhone />
+              </a>
+            )}
             <a href={mailLink(site.email)} aria-label="Email us">
               <IconMail />
             </a>

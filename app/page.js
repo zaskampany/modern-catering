@@ -9,7 +9,7 @@ import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
 import { IconPin, IconPhone, IconMail, IconWhatsApp } from "@/components/Icons";
-import { site, telLink, mailLink, whatsappLink } from "@/lib/site";
+import { site, mailLink, whatsappLink } from "@/lib/site";
 
 
 
@@ -176,14 +176,20 @@ export default function Home() {
                   <span className="contact__ico"><IconPin /></span>
                   <div><strong>Visit Us</strong><br />{site.addressLine1},<br />{site.addressLine2}</div>
                 </li>
-                <li>
-                  <span className="contact__ico"><IconPhone /></span>
-                  <div>
-                    <strong>Call Us</strong><br />
-                    <a href={telLink(site.phonePrimary)}>{site.phonePrimaryDisplay}</a><br />
-                    <a href={telLink(site.phoneSecondary)}>{site.phoneSecondaryDisplay}</a>
-                  </div>
-                </li>
+                {site.phones.length > 0 && (
+                  <li>
+                    <span className="contact__ico"><IconPhone /></span>
+                    <div>
+                      <strong>Call Us</strong><br />
+                      {site.phones.map((p, i) => (
+                        <span key={p.tel}>
+                          <a href={p.tel}>{p.display}</a>
+                          {i < site.phones.length - 1 && <br />}
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                )}
                 <li>
                   <span className="contact__ico"><IconMail /></span>
                   <div><strong>Email</strong><br /><a href={mailLink(site.email)}>{site.email}</a></div>
@@ -212,8 +218,9 @@ export default function Home() {
           </div>
           <div className="footer__col">
             <h4>Contact</h4>
-            <a href={telLink(site.phonePrimary)}>{site.phonePrimaryDisplay}</a>
-            <a href={telLink(site.phoneSecondary)}>{site.phoneSecondaryDisplay}</a>
+            {site.phones.map((p) => (
+              <a key={p.tel} href={p.tel}>{p.display}</a>
+            ))}
             <span>{site.addressShort}</span>
           </div>
           <div className="footer__col">
