@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
 import Reels from "@/components/Reels";
 import Services from "@/components/Services";
 import Menu from "@/components/Menu";
+import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
 import { IconPin, IconPhone, IconMail, IconWhatsApp } from "@/components/Icons";
@@ -20,35 +22,6 @@ const testimonials = [
 // Every gallery image, split across two collage rows. Size classes (assigned
 // by position below) vary the tiles so the track reads like a packed collage
 // rather than a plain filmstrip.
-const galleryRowTop = [
-  ["s301.jpg", "Illuminated buffet counter"],
-  ["sadhya1.jpg", "Traditional sadhya banquet at our garden venue"],
-  ["s302.jpg", "Grand catering spread under warm lights"],
-  ["sadhya2.jpg", "Guests served a feast on banana leaves"],
-  ["s303.jpg", "Neon-lit buffet at an evening event"],
-  ["serve1.jpg", "Serving a fresh feast on banana leaves"],
-  ["s304.jpg", "Grand illuminated catering setup"],
-  ["sadhya3.jpg", "Families dining at a celebration"],
-  ["s305.jpg", "Live counter with neon signage"],
-  ["sadhya4.jpg", "Guests enjoying a garden sadhya"],
-  ["s306.jpg", "Elegant buffet presentation"],
-];
-const galleryRowBottom = [
-  ["s307.jpg", "Elegant table setting with flowers"],
-  ["sadhya5.jpg", "A full traditional feast laid out"],
-  ["s308.jpg", "Beautifully plated dishes on display"],
-  ["team1.jpg", "Our uniformed service team on site"],
-  ["s309.jpg", "Dessert and live counter spread"],
-  ["sadhya6.jpg", "A grand sadhya served to guests"],
-  ["s310.jpg", "Vibrant multi-cuisine buffet"],
-  ["team2.jpg", "The Modern Catering crew ready to serve"],
-  ["s311.jpg", "Grand reception catering setup"],
-  ["team3.jpg", "Our trained team at a garden venue"],
-  ["s312.jpg", "Lavish spread at an evening celebration"],
-];
-// Repeating collage rhythm — mixed widths for the packed, non-uniform look.
-const gSizes = ["gitem--md", "gitem--sm", "gitem--lg", "gitem--sm", "gitem--md"];
-
 const stats = [
   ["28+", "Years of Service"],
   ["6,000+", "Events Catered"],
@@ -69,8 +42,7 @@ export default function Home() {
         <section className="about section" id="about">
           <div className="container about__grid">
             <Reveal className="about__media">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/s305.jpg" alt="Modern Catering live counter setup" />
+              <Image src="/images/s305.jpg" alt="Modern Catering live counter setup" fill sizes="(max-width: 960px) 100vw, 45vw" />
               <div className="about__badge">
                 <span className="about__badge-num">25+</span>
                 <span className="about__badge-txt">Years of<br />Celebrations</span>
@@ -134,29 +106,7 @@ export default function Home() {
             </Reveal>
           </div>
 
-          {/* Infinite collage carousel — two rows drifting the same direction */}
-          <div className="gallery__carousel" aria-label="Gallery of catered events">
-            <div className="gallery__row">
-              <div className="gallery__track gallery__track--left">
-                {[...galleryRowTop, ...galleryRowTop].map(([img, alt], i) => (
-                  <figure className={`gitem ${gSizes[(i % galleryRowTop.length) % gSizes.length]}`} key={`t-${img}-${i}`} aria-hidden={i >= galleryRowTop.length}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/images/${img}`} alt={alt} loading="lazy" />
-                  </figure>
-                ))}
-              </div>
-            </div>
-            <div className="gallery__row">
-              <div className="gallery__track gallery__track--left gallery__track--slow">
-                {[...galleryRowBottom, ...galleryRowBottom].map(([img, alt], i) => (
-                  <figure className={`gitem ${gSizes[((i % galleryRowBottom.length) + 2) % gSizes.length]}`} key={`b-${img}-${i}`} aria-hidden={i >= galleryRowBottom.length}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/images/${img}`} alt={alt} loading="lazy" />
-                  </figure>
-                ))}
-              </div>
-            </div>
-          </div>
+          <Gallery />
         </section>
 
         {/* REELS */}
@@ -209,8 +159,7 @@ export default function Home() {
               <a href="#contact" className="btn btn--dark">Work With Us</a>
             </Reveal>
             <Reveal className="team__media">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/team3.jpg" alt="The Modern Catering service team in uniform" />
+              <Image src="/images/team3.jpg" alt="The Modern Catering service team in uniform" fill sizes="(max-width: 960px) 100vw, 45vw" />
             </Reveal>
           </div>
         </section>
@@ -251,8 +200,7 @@ export default function Home() {
       <footer className="footer">
         <div className="container footer__grid">
           <div className="footer__brand">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo.png" alt="Modern Catering" />
+            <Image src="/images/logo.png" alt="Modern Catering" width={76} height={76} />
             <p>Taste the Celebration.<br />Serving Kerala&apos;s finest since 1997.</p>
           </div>
           <div className="footer__col">

@@ -1,4 +1,5 @@
 import { Manrope, Inter, Space_Grotesk } from "next/font/google";
+import Splash from "@/components/Splash";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -43,7 +44,10 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${manrope.variable} ${inter.variable} ${spaceGrotesk.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Splash />
+        {children}
+      </body>
     </html>
   );
 }

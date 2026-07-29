@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { IconWhatsApp, IconInstagram, IconFacebook, IconPhone, IconMail } from "@/components/Icons";
 import { site, telLink, mailLink, whatsappLink } from "@/lib/site";
 
@@ -23,12 +24,20 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // The hero is sticky-pinned, so a plain #home anchor is a no-op — scroll to top.
+  const handleNav = (e, href) => {
+    setOpen(false);
+    if (href === "#home") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <header className={`nav${scrolled ? " is-scrolled" : ""}`}>
       <div className="nav__inner container">
-        <a href="#home" className="nav__brand" onClick={() => setOpen(false)}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo.png" alt="Modern Catering" className="nav__logo" />
+        <a href="#home" className="nav__brand" onClick={(e) => handleNav(e, "#home")}>
+          <Image src="/images/logo.png" alt="Modern Catering" width={46} height={46} className="nav__logo" priority />
           <span className="nav__name">
             <b>Modern</b>
             <span>Catering</span>
@@ -37,7 +46,7 @@ export default function Nav() {
 
         <nav className={`nav__links${open ? " is-open" : ""}`}>
           {links.map(([label, href]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)}>
+            <a key={href} href={href} onClick={(e) => handleNav(e, href)}>
               {label}
             </a>
           ))}
