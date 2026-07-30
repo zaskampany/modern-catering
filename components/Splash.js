@@ -16,13 +16,17 @@ export default function Splash() {
     let settled = false;
     let hideTimer;
 
+    // Safari refuses to start a video it considers hidden, and the splash
+    // covers this one completely — so kick playback off once we uncover it.
+    const play = () => video?.play?.().catch(() => {});
+
     const finish = () => {
       if (settled) return;
       settled = true;
-      hideTimer = setTimeout(
-        () => setHidden(true),
-        Math.max(0, MIN_MS - (Date.now() - started))
-      );
+      hideTimer = setTimeout(() => {
+        setHidden(true);
+        play();
+      }, Math.max(0, MIN_MS - (Date.now() - started)));
     };
 
     const cap = setTimeout(finish, MAX_MS);
@@ -35,11 +39,24 @@ export default function Splash() {
       video.addEventListener("error", finish); // fall through to the poster
     }
 
+    // Low Power Mode / Low Data Mode refuse programmatic playback outright —
+    // only a real user gesture lifts that. Retry on the first one, then stop
+    // listening as soon as the video reports it is running.
+    const stopRetrying = () => {
+      window.removeEventListener("touchstart", play);
+      window.removeEventListener("click", play);
+    };
+    window.addEventListener("touchstart", play, { passive: true });
+    window.addEventListener("click", play);
+    video?.addEventListener("playing", stopRetrying);
+
     return () => {
       clearTimeout(cap);
       clearTimeout(hideTimer);
+      stopRetrying();
       video?.removeEventListener("canplay", finish);
       video?.removeEventListener("error", finish);
+      video?.removeEventListener("playing", stopRetrying);
     };
   }, []);
 
