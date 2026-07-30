@@ -10,7 +10,7 @@ export default function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="/images/sadhya1.jpg"
+        poster="/images/sadhya1.webp"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>

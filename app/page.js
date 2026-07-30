@@ -42,7 +42,7 @@ export default function Home() {
         <section className="about section" id="about">
           <div className="container about__grid">
             <Reveal className="about__media">
-              <Image src="/images/s305.jpg" alt="Modern Catering live counter setup" fill sizes="(max-width: 960px) 100vw, 45vw" />
+              <Image src="/images/s305.webp" alt="Modern Catering live counter setup" fill sizes="(max-width: 960px) 100vw, 45vw" />
               <div className="about__badge">
                 <span className="about__badge-num">25+</span>
                 <span className="about__badge-txt">Years of<br />Celebrations</span>
@@ -159,7 +159,7 @@ export default function Home() {
               <a href="#contact" className="btn btn--dark">Work With Us</a>
             </Reveal>
             <Reveal className="team__media">
-              <Image src="/images/team3.jpg" alt="The Modern Catering service team in uniform" fill sizes="(max-width: 960px) 100vw, 45vw" />
+              <Image src="/images/team3.webp" alt="The Modern Catering service team in uniform" fill sizes="(max-width: 960px) 100vw, 45vw" />
             </Reveal>
           </div>
         </section>

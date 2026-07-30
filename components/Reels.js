@@ -7,14 +7,14 @@ import { site } from "@/lib/site";
 const INSTAGRAM_REELS = site.instagramReels;
 
 const reels = [
-  { src: "/videos/reel1.mp4", poster: "/images/s301.jpg" },
-  { src: "/videos/reel2.mp4", poster: "/images/s304.jpg" },
-  { src: "/videos/reel3.mp4", poster: "/images/s305.jpg" },
-  { src: "/videos/reel4.mp4", poster: "/images/s307.jpg" },
-  { src: "/videos/reel5.mp4", poster: "/images/s309.jpg" },
-  { src: "/videos/reel6.mp4", poster: "/images/s311.jpg" },
-  { src: "/videos/reel7.mp4", poster: "/images/s303.jpg" },
-  { src: "/videos/reel8.mp4", poster: "/images/s312.jpg" },
+  { src: "/videos/reel1.mp4", poster: "/images/s301.webp" },
+  { src: "/videos/reel2.mp4", poster: "/images/s304.webp" },
+  { src: "/videos/reel3.mp4", poster: "/images/s305.webp" },
+  { src: "/videos/reel4.mp4", poster: "/images/s307.webp" },
+  { src: "/videos/reel5.mp4", poster: "/images/s309.webp" },
+  { src: "/videos/reel6.mp4", poster: "/images/s311.webp" },
+  { src: "/videos/reel7.mp4", poster: "/images/s303.webp" },
+  { src: "/videos/reel8.mp4", poster: "/images/s312.webp" },
 ].map((r) => ({ ...r, insta: INSTAGRAM_REELS }));
 
 export default function Reels() {
