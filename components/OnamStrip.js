@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { onam, onamIsLive } from "@/lib/site";
 
@@ -39,18 +40,32 @@ export default function OnamStrip() {
               ? "Thank you for the wonderful response — every order is taken. We're still catering all other events."
               : `A full traditional sadhya on Thiruvonam day, ${onam.sadhya.items.length} items including two litres of payasam. Collect from Kolazhi.`}
           </p>
+
+          <div className="ostrip__cta">
+            {soldOut ? (
+              <a href="#contact" className="btn btn--dark">Enquire For Other Events</a>
+            ) : (
+              <>
+                <Link href="/onam" className="btn btn--gold">View Packages &amp; Book</Link>
+                <Link href="/onam" className="ostrip__link">See what&apos;s included →</Link>
+              </>
+            )}
+          </div>
         </div>
 
-        <div className="ostrip__cta">
-          {soldOut ? (
-            <a href="#contact" className="btn btn--dark">Enquire For Other Events</a>
-          ) : (
-            <>
-              <Link href="/onam" className="btn btn--gold">View Packages &amp; Book</Link>
-              <Link href="/onam" className="ostrip__link">See what&apos;s included →</Link>
-            </>
-          )}
-        </div>
+        {/* The poster repeats the price and full dish list, so it only earns its
+            place while there's still something to book. */}
+        {!soldOut && (
+          <Link href="/onam" className="ostrip__poster" aria-label={`Onam ${onam.year} sadhya — see full details`}>
+            <Image
+              src={onam.poster}
+              alt={`Modern Catering Onam Sadhya ${onam.year} — ₹${onam.sadhya.price} for ${onam.sadhya.serves} members`}
+              width={1000}
+              height={1333}
+              sizes="(max-width: 720px) 78vw, (max-width: 960px) 40vw, 300px"
+            />
+          </Link>
+        )}
       </div>
     </section>
   );
