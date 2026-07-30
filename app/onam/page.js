@@ -27,15 +27,6 @@ export default function OnamPage() {
       <main className="onam">
         {/* HEADER */}
         <header className="onam__hero">
-          <div className="onam__heroimg">
-            <Image
-              src="/images/sadhya1.webp"
-              alt="A traditional Onam sadhya laid out on banana leaves"
-              fill
-              priority
-              sizes="100vw"
-            />
-          </div>
           <div className="container onam__herotext">
             <p className="eyebrow eyebrow--light">
               Onam {year} {soldOut ? "— Fully Booked" : "— Now Booking"}

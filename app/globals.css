@@ -687,16 +687,22 @@ body {
 .onam { padding-top: 0; }
 .onam__hero {
   position: relative; display: grid; align-items: end;
-  min-height: clamp(420px, 62vh, 620px);
+  min-height: clamp(380px, 54vh, 540px);
   padding-top: calc(96px + env(safe-area-inset-top));
   padding-bottom: clamp(2.6rem, 6vw, 5rem);
   background: var(--navy); overflow: hidden;
 }
-.onam__heroimg { position: absolute; inset: 0; }
-.onam__heroimg img { object-fit: cover; opacity: .34; }
-.onam__hero::after {
+/* No photo here — the warm gold wash carries the festive tone on its own. */
+.onam__hero::before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(18,32,58,.5) 0%, rgba(18,32,58,.86) 78%);
+  background:
+    radial-gradient(80% 90% at 12% 0%, rgba(184,137,60,.36), transparent 62%),
+    radial-gradient(70% 90% at 96% 8%, rgba(201,162,75,.22), transparent 60%);
+}
+/* thin gold rule where the hero meets the page */
+.onam__hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2), transparent);
 }
 .onam__herotext { position: relative; z-index: 1; color: var(--paper); }
 .eyebrow--light { color: var(--gold-2); }
