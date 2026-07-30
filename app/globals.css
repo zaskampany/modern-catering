@@ -574,25 +574,32 @@ body {
   /* right-side slide-in drawer */
   .nav__links {
     position: fixed; top: 0; right: 0; bottom: 0; left: auto;
-    /* no explicit height — top/bottom stretch the drawer to the real viewport
-       edges, which `100svh` would cut short while Safari's toolbars are up */
+    /* Height must be viewport-relative, NOT left to top/bottom: `.nav` gains a
+       backdrop-filter when scrolled, which makes it the containing block for
+       these fixed children, so `bottom: 0` would size the drawer to the 84px
+       header and clip every link after the first. */
     width: min(82vw, 330px);
+    height: 100vh; height: 100lvh;
     flex-direction: column; gap: 0; align-items: stretch; justify-content: flex-start;
     background: rgba(250,248,243,.98); backdrop-filter: blur(16px);
     padding: calc(6.6rem + env(safe-area-inset-top)) var(--pad) calc(2rem + env(safe-area-inset-bottom));
     transform: translateX(105%);
     transition: transform .44s cubic-bezier(.6,.04,.24,1);
     box-shadow: -26px 0 60px -26px rgba(0,0,0,.4);
-    overflow-y: auto; z-index: 2;
+    /* `contain` stops a swipe inside the drawer from chaining into the page
+       once the drawer's own list hits its end. */
+    overflow-y: auto; overscroll-behavior: contain; z-index: 2;
   }
   .nav__links.is-open { transform: translateX(0); }
   /* backdrop */
   .nav__overlay {
     display: block; position: fixed; inset: 0; background: rgba(10,16,28,.45);
+    /* same containing-block trap as .nav__links — needs its own height */
+    height: 100vh; height: 100lvh;
     opacity: 0; visibility: hidden; z-index: 1;
     transition: opacity .44s ease, visibility .44s;
   }
-  .nav__overlay.is-open { opacity: 1; visibility: visible; }
+  .nav__overlay.is-open { opacity: 1; visibility: visible; touch-action: none; }
   .nav__toggle { position: relative; z-index: 3; }
   /* staggered fade-in of items when drawer opens */
   .nav__links a, .nav__links .nav__social {

@@ -24,6 +24,21 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Freeze the page behind the open drawer. Applied to <html> as well as <body>
+  // because iOS Safari ignores `overflow: hidden` on <body> on its own.
+  useEffect(() => {
+    if (!open) return;
+    const html = document.documentElement;
+    const prevHtml = html.style.overflow;
+    const prevBody = document.body.style.overflow;
+    html.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtml;
+      document.body.style.overflow = prevBody;
+    };
+  }, [open]);
+
   // The hero is sticky-pinned, so a plain #home anchor is a no-op — scroll to top.
   const handleNav = (e, href) => {
     setOpen(false);
