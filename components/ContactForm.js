@@ -10,11 +10,11 @@ export default function ContactForm() {
     const data = new FormData(e.currentTarget);
     // Compose a WhatsApp message as a no-backend fallback
     const msg =
-      `New enquiry from ${data.get("name") || "—"}%0A` +
-      `Phone: ${data.get("phone") || "—"}%0A` +
-      `Event: ${data.get("event") || "—"}%0A` +
-      `Guests: ${data.get("guests") || "—"}%0A` +
-      `Details: ${data.get("message") || "—"}`;
+      `New enquiry from ${data.get("name") || "not given"}%0A` +
+      `Phone: ${data.get("phone") || "not given"}%0A` +
+      `Event: ${data.get("event") || "not given"}%0A` +
+      `Guests: ${data.get("guests") || "not given"}%0A` +
+      `Details: ${data.get("message") || "not given"}`;
     window.open(whatsappLink(msg), "_blank", "noopener");
     setSent(true);
     e.currentTarget.reset();

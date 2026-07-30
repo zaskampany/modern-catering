@@ -100,7 +100,7 @@ export default function OnamPopup() {
         <Link href="/onam" className="opop__poster" onClick={dismiss}>
           <Image
             src={onam.poster}
-            alt={`Modern Catering Onam Sadhya ${onam.year} — ₹${onam.sadhya.price} for ${onam.sadhya.serves} members. Tap for full details.`}
+            alt={`Modern Catering Onam Sadhya ${onam.year}: ₹${onam.sadhya.price} for ${onam.sadhya.serves} members. Tap for full details.`}
             width={1000}
             height={1333}
             priority
@@ -114,7 +114,7 @@ export default function OnamPopup() {
                 Onam sadhya is <em>fully booked</em>
               </h2>
               <p className="opop__lead">
-                Every order has been taken — thank you for the wonderful response.
+                Every order has been taken. Thank you for the wonderful response.
               </p>
               <div className="opop__actions">
                 <a href="#contact" className="btn btn--gold" onClick={dismiss}>

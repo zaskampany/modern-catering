@@ -803,9 +803,11 @@ body {
 }
 
 /* collection point & timings */
+/* auto-fit so the row reflows cleanly as items are added or removed, rather
+   than stranding one on a line of its own */
 .ocollect {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 1.4rem; margin-top: clamp(2rem, 4vw, 3rem);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1.6rem 1.4rem; margin-top: clamp(2rem, 4vw, 3rem);
   padding-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line);
 }
 .ocollect__item { display: grid; gap: .4rem; }
@@ -826,6 +828,182 @@ body {
   display: block; width: 100%; height: clamp(620px, 88vh, 1200px);
   border: 0; border-radius: 4px;
 }
+/* ---- themed booking form (posts to the Google Form) ---- */
+.obf { display: grid; gap: 1.5rem; padding: clamp(1.4rem, 3vw, 2.4rem); }
+.obf__when {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .8rem 1.1rem; border-radius: 4px;
+  background: rgba(184,137,60,.09); border: 1px solid rgba(184,137,60,.28);
+  font-size: .95rem; color: var(--ink);
+}
+.obf__when svg { width: 19px; height: 19px; flex: 0 0 auto; color: var(--gold); }
+.obf__when strong { font-weight: 700; color: var(--gold); }
+.obf__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.obf__field { display: flex; flex-direction: column; gap: .55rem; border: 0; padding: 0; min-width: 0; }
+.obf__field--full { grid-column: 1 / -1; }
+.obf__field label, .obf__field legend {
+  font-family: var(--font-nav); font-size: .7rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
+  padding: 0; margin-bottom: .1rem;
+}
+.obf__field label span, .obf__field legend span {
+  letter-spacing: 0; text-transform: none; color: var(--ink-soft); font-weight: 500;
+}
+.obf__field label i, .obf__field legend i {
+  font-style: normal; letter-spacing: 0; text-transform: none;
+  color: var(--ink-soft); font-weight: 500;
+}
+.obf input[type="text"], .obf input[type="tel"], .obf input[type="number"], .obf textarea {
+  font: inherit; font-size: .98rem; color: var(--ink);
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: 4px; padding: .78rem .95rem; width: 100%;
+  transition: border-color .25s, box-shadow .25s, background .25s;
+}
+.obf textarea { resize: vertical; }
+.obf input::placeholder, .obf textarea::placeholder { color: rgba(20,24,30,.36); }
+.obf input:focus, .obf textarea:focus {
+  outline: none; border-color: var(--gold); background: #fff;
+  box-shadow: 0 0 0 3px rgba(184,137,60,.18);
+}
+
+/* validation — our own messages, so the form carries noValidate */
+.obf .is-invalid { border-color: #b8453c; background: rgba(184,69,60,.04); }
+.obf .is-invalid:focus {
+  border-color: #b8453c; box-shadow: 0 0 0 3px rgba(184,69,60,.18);
+}
+.obf__err {
+  display: flex; align-items: flex-start; gap: .4rem;
+  font-size: .86rem; line-height: 1.45; color: #8c2f2f;
+  animation: obf-err-in .22s ease both;
+}
+.obf__err::before { content: "!";
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 15px; height: 15px; margin-top: .16rem; border-radius: 50%;
+  background: #b8453c; color: #fff; font-size: .66rem; font-weight: 700;
+}
+@keyframes obf-err-in {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* package-count chips */
+.obf__chips { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+.obf__chip {
+  position: relative; display: grid; place-items: center;
+  min-width: 70px; min-height: 54px; padding: .85rem 1.5rem;
+  font-family: var(--font-nav); font-size: 1.05rem; font-weight: 600;
+  color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 5px; cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
+}
+.obf__chip input { position: absolute; opacity: 0; pointer-events: none; }
+.obf__chip:hover { border-color: var(--gold); }
+.obf__chip.is-on {
+  background: var(--gold); border-color: var(--gold); color: #fff;
+  box-shadow: 0 6px 16px -8px rgba(184,137,60,.8);
+}
+.obf__chip:active { transform: scale(.97); }
+.obf__chip:focus-within { box-shadow: 0 0 0 3px rgba(184,137,60,.22); }
+/* "More" free-text count — matched to the chip height so the row stays level */
+.obf__other { max-width: 160px; min-height: 54px; }
+.obf__hint { font-size: .88rem; color: var(--ink-soft); margin-top: .2rem; }
+
+/* payasam add-on rows — repeatable: pick one + quantity, or add your own */
+.obf__addons { display: grid; gap: .7rem; margin-bottom: .9rem; }
+.obf__addon {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center; gap: .6rem;
+  padding: .6rem; background: var(--paper);
+  border: 1px solid var(--line); border-radius: 4px;
+}
+.obf__addonpick {
+  font: inherit; font-size: .95rem; color: var(--ink); min-width: 0; cursor: pointer;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 3px; padding: .58rem .7rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+.obf__addonpick:focus {
+  outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,137,60,.18);
+}
+.obf__qty {
+  display: flex; align-items: center; gap: .4rem;
+  background: #fff; border: 1px solid var(--line); border-radius: 3px;
+  padding: 0 .6rem 0 .2rem;
+}
+.obf__qty:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,137,60,.18); }
+.obf__qty input {
+  width: 62px; border: 0 !important; background: none !important;
+  box-shadow: none !important; padding: .58rem .3rem !important; text-align: center;
+}
+.obf__qty span {
+  font-family: var(--font-nav); font-size: .66rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft);
+}
+.obf__drop {
+  width: 32px; height: 32px; border-radius: 50%; flex: 0 0 auto;
+  display: grid; place-items: center; font-size: 1.3rem; line-height: 1;
+  color: var(--ink-soft); background: transparent;
+  transition: background .2s, color .2s;
+}
+.obf__drop:hover { background: rgba(184,60,60,.12); color: #8c2f2f; }
+.obf__add {
+  display: inline-flex; align-items: center; gap: .6rem; align-self: start;
+  padding: .6rem 1.1rem .6rem .6rem;
+  font-family: var(--font-nav); font-size: .74rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--gold);
+  background: transparent; border: 1px dashed rgba(184,137,60,.5); border-radius: 4px;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.obf__add:hover { background: rgba(184,137,60,.08); border-color: var(--gold); }
+.obf__addicon {
+  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--gold); color: #fff; font-size: 1.1rem; line-height: 1;
+}
+
+.obf__submit { display: grid; gap: .7rem; justify-items: start; }
+.obf__submit .btn:disabled { opacity: .6; cursor: default; transform: none; }
+.obf__fine { font-size: .85rem; color: var(--ink-soft); }
+.obf__error {
+  padding: .9rem 1.1rem; border-radius: 4px;
+  background: rgba(184,60,60,.08); border: 1px solid rgba(184,60,60,.3);
+  font-size: .92rem; color: #8c2f2f;
+}
+.obf__error a { color: #8c2f2f; font-weight: 600; text-decoration: underline; }
+
+/* success state */
+.obf--done {
+  text-align: center; padding: clamp(2.4rem, 5vw, 3.6rem);
+  justify-items: center; gap: 1.05rem;
+}
+.obf__tick {
+  display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%;
+  background: var(--gold); color: #fff; font-size: 1.7rem; line-height: 1;
+  margin-bottom: .4rem;
+}
+.obf--done h3 {
+  font-family: var(--font-display); font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  font-weight: 700; letter-spacing: -.01em; color: var(--ink);
+  max-width: 24ch;
+}
+.obf--done p { max-width: 48ch; color: var(--ink-soft); }
+/* Malayalam stacks vowel signs above and below, so it needs more room than
+   the Latin default or the lines visually collide. */
+.obf--done [lang="ml"] { line-height: 1.85; }
+.obf--done h3[lang="ml"] { line-height: 1.5; }
+.obf__donephone {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .7rem 1.4rem; margin: .2rem 0 .3rem;
+  font-family: var(--font-display); font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+  font-weight: 700; letter-spacing: -.01em; color: var(--gold);
+  background: rgba(184,137,60,.08);
+  border: 1px solid rgba(184,137,60,.35); border-radius: 5px;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+.obf__donephone:hover {
+  background: var(--gold); border-color: var(--gold); color: #fff; transform: translateY(-2px);
+}
+.obf--done .btn { margin-top: .6rem; }
+
 .obook__fallback {
   padding: .9rem .4rem .3rem; text-align: center;
   font-size: .9rem; color: var(--ink-soft);
@@ -879,7 +1057,6 @@ body {
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .osadhya { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
   .opayasam__grid { grid-template-columns: 1fr; }
-  .ocollect { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 720px) {
@@ -895,8 +1072,22 @@ body {
   .ostrip__cta { width: 100%; justify-content: center; }
   .ostrip__cta .btn { width: 100%; }
   .obook__frame { height: clamp(560px, 82vh, 900px); }
+  .obf__row { grid-template-columns: 1fr; }
   .osadhya__items { grid-template-columns: 1fr; }
-  .ocollect { grid-template-columns: 1fr; }
+}
+
+/* Below ~520px the payasam name, quantity and remove button can't share a line
+   without crushing the select, so the select takes its own row. */
+@media (max-width: 520px) {
+  .obf { padding: 1.15rem; }
+  .obf__addon { grid-template-columns: 1fr auto; row-gap: .6rem; padding: .7rem; }
+  /* slightly smaller so the bilingual name survives on a narrow phone */
+  .obf__addonpick { grid-column: 1 / -1; font-size: .88rem; }
+  .obf__qty { justify-self: start; }
+  .obf__drop { justify-self: end; width: 38px; height: 38px; }
+  .obf__add { width: 100%; justify-content: center; }
+  .obf__submit { justify-items: stretch; }
+  .obf__submit .btn { width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

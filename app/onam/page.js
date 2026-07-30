@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Reveal from "@/components/Reveal";
+import OnamBookingForm from "@/components/OnamBookingForm";
 import { IconPhone, IconWhatsApp } from "@/components/Icons";
 import { onam, whatsappLink } from "@/lib/site";
 
@@ -9,7 +10,7 @@ export const metadata = {
   title: `Onam Sadhya ${onam.year} | Modern Catering, Thrissur`,
   description: `Onam sadhya ₹${onam.sadhya.price} for ${onam.sadhya.serves} members, from Modern Catering, Kolazhi. Full traditional banana-leaf sadhya on Thiruvonam day. Book your order.`,
   openGraph: {
-    title: `Onam Sadhya ${onam.year} — ₹${onam.sadhya.price} for ${onam.sadhya.serves} | Modern Catering`,
+    title: `Onam Sadhya ${onam.year}: ₹${onam.sadhya.price} for ${onam.sadhya.serves} | Modern Catering`,
     description: `A full traditional Onam sadhya on Thiruvonam day, from Modern Catering, Kolazhi, Thrissur.`,
     images: ["/images/s304.jpg"],
   },
@@ -17,8 +18,9 @@ export const metadata = {
 
 export default function OnamPage() {
   const {
-    soldOut, sadhya, payasams, formEmbedUrl, formUrl, year,
+    soldOut, sadhya, payasams, formEmbedUrl, formPostUrl, formEmbed, formUrl, year,
     poster, pickup, sadhyaTime, payasamTime, bookingPhone, onSwiggy, onZomato,
+    deliveryDateLabel,
   } = onam;
 
   return (
@@ -29,7 +31,7 @@ export default function OnamPage() {
         <header className="onam__hero">
           <div className="container onam__herotext">
             <p className="eyebrow eyebrow--light">
-              Onam {year} {soldOut ? "— Fully Booked" : "— Now Booking"}
+              Onam {year} {soldOut ? "· Fully Booked" : "· Now Booking"}
             </p>
             <h1 className="onam__title">
               {soldOut ? (
@@ -40,7 +42,7 @@ export default function OnamPage() {
             </h1>
             <p className="onam__lead">
               {soldOut
-                ? `Every order for Onam ${year} has been taken. Thank you for the wonderful response — we're still catering all other events.`
+                ? `Every order for Onam ${year} has been taken. Thank you for the wonderful response. We're still catering all other events.`
                 : `A full traditional sadhya on Thiruvonam day, cooked fresh and packed on banana leaf. ₹${sadhya.price} for ${sadhya.serves} members, ready to collect from Kolazhi.`}
             </p>
             {!soldOut && (
@@ -57,7 +59,7 @@ export default function OnamPage() {
               <h2 className="title">What&apos;s on the <em>leaf</em></h2>
               <p className="section__lead">
                 One complete sadhya, {sadhya.items.length} items including two
-                litres of payasam — enough for {sadhya.serves} people.
+                litres of payasam, enough for {sadhya.serves} people.
               </p>
             </Reveal>
 
@@ -65,7 +67,7 @@ export default function OnamPage() {
               <Reveal className="osadhya__poster">
                 <Image
                   src={poster}
-                  alt={`Modern Catering Onam Sadhya ${year} poster — ₹${sadhya.price} for ${sadhya.serves} members`}
+                  alt={`Modern Catering Onam Sadhya ${year} poster: ₹${sadhya.price} for ${sadhya.serves} members`}
                   width={1000}
                   height={1333}
                   sizes="(max-width: 960px) 92vw, 420px"
@@ -112,6 +114,10 @@ export default function OnamPage() {
 
             {/* COLLECTION */}
             <Reveal className="ocollect">
+              <div className="ocollect__item">
+                <span className="ocollect__label">Delivery Date</span>
+                <strong>{deliveryDateLabel}</strong>
+              </div>
               <div className="ocollect__item">
                 <span className="ocollect__label">Collection Point</span>
                 <strong>{pickup}</strong>
@@ -162,6 +168,18 @@ export default function OnamPage() {
                   <Link href="/#contact" className="btn btn--gold">Enquire For Other Events</Link>
                 </div>
               </div>
+            ) : formPostUrl && !formEmbed ? (
+              /* Themed on-site form — posts to the same Google Form, so the
+                 responses still collect in the linked sheet. */
+              <div className="obook">
+                <OnamBookingForm />
+                <p className="obook__fallback">
+                  Prefer Google Forms?{" "}
+                  <a href={formUrl} target="_blank" rel="noopener noreferrer">
+                    Open the original form ↗
+                  </a>
+                </p>
+              </div>
             ) : formEmbedUrl ? (
               <div className="obook">
                 <iframe
@@ -185,7 +203,7 @@ export default function OnamPage() {
               <div className="obook__closed">
                 <h3>Reserve your sadhya</h3>
                 <p>
-                  Our booking form opens in a new tab — it takes about a minute,
+                  Our booking form opens in a new tab. It takes about a minute,
                   and we&apos;ll call you back to confirm the slot.
                 </p>
                 <div className="obook__actions">
@@ -236,10 +254,6 @@ export default function OnamPage() {
             </div>
           </div>
         </section>
-
-        <div className="container onam__back">
-          <Link href="/" className="link-arrow">← Back to Modern Catering</Link>
-        </div>
       </main>
     </>
   );

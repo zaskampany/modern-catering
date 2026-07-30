@@ -18,16 +18,7 @@ yarn-error.log*
 # env
 .env*.local
 
-# original source assets (large — keep out of repo/build)
-/insta-reels-videos/
-/Modern*.png
-/Modern*.jpeg
-/IMG_*.JPEG
-/logo-no-bg.png
-/onam package poster.jpg
 # uncompressed reel sources — encoded copies live in /public/videos
-/MODERN final.mp4
-/Modern*.mp4
 /public/scripts/compress.log
 
 Modern Food Menu.pdf

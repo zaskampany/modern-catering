@@ -33,6 +33,7 @@ const galleryRowBottom = [
   ["s312.webp", "Lavish spread at an evening celebration"],
   ["s314.webp", "Gilded pot and scattered rose petals in the entrance decor", 1080, 1620],
   ["s316.webp", "Carved wooden settee framed by jasmine and rose garlands", 1080, 1620],
+  ["team4.webp", "Our uniformed team ready to serve in a draped banquet hall", 1080, 1440],
 ];
 // Repeating collage rhythm — mixed widths for the packed, non-uniform look.
 const gSizes = ["gitem--md", "gitem--sm", "gitem--lg", "gitem--sm", "gitem--md"];

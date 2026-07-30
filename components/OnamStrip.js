@@ -24,7 +24,7 @@ export default function OnamStrip() {
         <div className="ostrip__text">
           <p className="ostrip__eyebrow">
             <span className="ostrip__dot" aria-hidden="true" />
-            Onam {onam.year} {soldOut ? "— Fully Booked" : "— Now Booking"}
+            Onam {onam.year} {soldOut ? "· Fully Booked" : "· Now Booking"}
           </p>
           <h2 className="ostrip__title">
             {soldOut ? (
@@ -37,7 +37,7 @@ export default function OnamStrip() {
           </h2>
           <p className="ostrip__lead">
             {soldOut
-              ? "Thank you for the wonderful response — every order is taken. We're still catering all other events."
+              ? "Thank you for the wonderful response. Every order is taken, but we're still catering all other events."
               : `A full traditional sadhya on Thiruvonam day, ${onam.sadhya.items.length} items including two litres of payasam. Collect from Kolazhi.`}
           </p>
 
@@ -56,10 +56,10 @@ export default function OnamStrip() {
         {/* The poster repeats the price and full dish list, so it only earns its
             place while there's still something to book. */}
         {!soldOut && (
-          <Link href="/onam" className="ostrip__poster" aria-label={`Onam ${onam.year} sadhya — see full details`}>
+          <Link href="/onam" className="ostrip__poster" aria-label={`Onam ${onam.year} sadhya: see full details`}>
             <Image
               src={onam.poster}
-              alt={`Modern Catering Onam Sadhya ${onam.year} — ₹${onam.sadhya.price} for ${onam.sadhya.serves} members`}
+              alt={`Modern Catering Onam Sadhya ${onam.year}: ₹${onam.sadhya.price} for ${onam.sadhya.serves} members`}
               width={1000}
               height={1333}
               sizes="(max-width: 720px) 78vw, (max-width: 960px) 40vw, 300px"
