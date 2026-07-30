@@ -52,7 +52,7 @@ export default function Home() {
               <p className="eyebrow">About Us</p>
               <h2 className="title">Great food, done<br />the <em>right way</em></h2>
               <p>
-                Since 1997, <strong>Modern Catering</strong> has been a trusted name behind Kerala&apos;s
+                Since 1997, <strong>Modern Catering</strong>&nbsp;has been a trusted name behind Kerala&apos;s
                 happiest occasions. What started as a small family kitchen now serves everything from
                 intimate get-togethers to weddings of a thousand guests, with the same care in every dish.
               </p>
