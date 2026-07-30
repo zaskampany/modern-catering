@@ -1,21 +1,25 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { IconWhatsApp, IconInstagram, IconFacebook, IconPhone, IconMail } from "@/components/Icons";
 import { site, mailLink, whatsappLink } from "@/lib/site";
 
+// Root-relative so the nav also works from sub-pages like /onam, where a bare
+// "#about" would have nothing to jump to.
 const links = [
-  ["Home", "#home"],
-  ["About", "#about"],
-  ["Services", "#services"],
-  ["Menu", "#menu"],
-  ["Gallery", "#gallery"],
-  ["Team", "#team"],
+  ["Home", "/#home"],
+  ["About", "/#about"],
+  ["Services", "/#services"],
+  ["Menu", "/#menu"],
+  ["Gallery", "/#gallery"],
+  ["Team", "/#team"],
 ];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -39,10 +43,11 @@ export default function Nav() {
     };
   }, [open]);
 
-  // The hero is sticky-pinned, so a plain #home anchor is a no-op — scroll to top.
+  // The hero is sticky-pinned, so a plain #home anchor is a no-op — scroll to
+  // top instead. From another page, let the browser navigate home normally.
   const handleNav = (e, href) => {
     setOpen(false);
-    if (href === "#home") {
+    if (href === "/#home" && pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -51,7 +56,7 @@ export default function Nav() {
   return (
     <header className={`nav${scrolled ? " is-scrolled" : ""}`}>
       <div className="nav__inner container">
-        <a href="#home" className="nav__brand" onClick={(e) => handleNav(e, "#home")}>
+        <a href="/#home" className="nav__brand" onClick={(e) => handleNav(e, "/#home")}>
           <Image src="/images/logo.png" alt="Modern Catering" width={46} height={46} className="nav__logo" priority />
           <span className="nav__name">
             <b>Modern</b>
@@ -65,7 +70,7 @@ export default function Nav() {
               {label}
             </a>
           ))}
-          <a href="#contact" className="nav__cta" onClick={() => setOpen(false)}>
+          <a href="/#contact" className="nav__cta" onClick={() => setOpen(false)}>
             Contact
           </a>
           <div className="nav__social">

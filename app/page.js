@@ -8,6 +8,8 @@ import Menu from "@/components/Menu";
 import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
+import OnamStrip from "@/components/OnamStrip";
+import OnamPopup from "@/components/OnamPopup";
 import { IconPin, IconPhone, IconMail, IconWhatsApp } from "@/components/Icons";
 import { site, mailLink, whatsappLink } from "@/lib/site";
 
@@ -38,6 +40,9 @@ export default function Home() {
 
         {/* Sliding panel — content scrolls up over the pinned hero */}
         <div className="stack">
+        {/* ONAM — seasonal; removes itself once the promo ends (see lib/site.js) */}
+        <OnamStrip />
+
         {/* ABOUT */}
         <section className="about section" id="about">
           <div className="container about__grid">
@@ -238,6 +243,8 @@ export default function Home() {
       <a href={whatsappLink()} className="fab" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
         <IconWhatsApp />
       </a>
+
+      <OnamPopup />
     </>
   );
 }

@@ -15,6 +15,7 @@ const reels = [
   { src: "/videos/reel6.mp4", poster: "/images/s311.webp" },
   { src: "/videos/reel7.mp4", poster: "/images/s303.webp" },
   { src: "/videos/reel8.mp4", poster: "/images/s312.webp" },
+  { src: "/videos/reel9.mp4", poster: "/images/reel9.webp" },
 ].map((r) => ({ ...r, insta: INSTAGRAM_REELS }));
 
 export default function Reels() {

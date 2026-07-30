@@ -561,6 +561,294 @@ body {
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s ease, transform .9s ease; }
 .reveal.is-visible { opacity: 1; transform: none; }
 
+/* ============ ONAM — SEASONAL STRIP (homepage) ============ */
+.ostrip {
+  position: relative; overflow: hidden;
+  background: var(--navy); color: var(--paper);
+  padding-block: clamp(2.4rem, 5vw, 3.4rem);
+}
+/* warm wash so the band reads as festive rather than as another dark section */
+.ostrip::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 140% at 8% 0%, rgba(184,137,60,.34), transparent 58%),
+    radial-gradient(90% 120% at 100% 100%, rgba(201,162,75,.20), transparent 60%);
+  pointer-events: none;
+}
+.ostrip__inner {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: clamp(1.6rem, 4vw, 3.5rem); flex-wrap: wrap;
+}
+.ostrip__text { flex: 1 1 420px; min-width: 0; }
+.ostrip__eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--font-nav);
+  font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-2); margin-bottom: .9rem;
+}
+.ostrip__dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold-2);
+  box-shadow: 0 0 0 0 rgba(201,162,75,.7); animation: ostrip-pulse 2.4s ease-out infinite;
+}
+@keyframes ostrip-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(201,162,75,.65); }
+  70%  { box-shadow: 0 0 0 11px rgba(201,162,75,0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,162,75,0); }
+}
+.ostrip__title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem); line-height: 1.12; letter-spacing: -.03em;
+}
+.ostrip__title em { font-style: normal; color: var(--gold-2); }
+.ostrip__lead {
+  margin-top: .85rem; max-width: 54ch;
+  color: rgba(250,248,243,.76); font-size: 1rem;
+}
+.ostrip__cta { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
+.ostrip__link {
+  font-family: var(--font-nav); font-size: .76rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(250,248,243,.75); transition: color .25s ease;
+}
+.ostrip__link:hover { color: var(--gold-2); }
+.ostrip.is-soldout::before {
+  background: radial-gradient(120% 140% at 8% 0%, rgba(120,130,150,.28), transparent 60%);
+}
+.ostrip.is-soldout .ostrip__eyebrow,
+.ostrip.is-soldout .ostrip__title em { color: #cdd4e0; }
+.ostrip.is-soldout .ostrip__dot { background: #cdd4e0; animation: none; }
+
+/* ============ ONAM — POPUP ============ */
+.opop {
+  position: fixed; inset: 0; z-index: 1200;
+  display: grid; place-items: center; padding: clamp(1rem, 4vw, 2rem);
+  background: rgba(8, 12, 20, .74); backdrop-filter: blur(6px);
+  animation: lightbox-fade .3s ease both;
+}
+/* Sized so the whole poster fits on screen without scrolling: the panel is
+   capped by height, and the poster's 3:4 ratio then sets the width. */
+.opop__panel {
+  position: relative; display: flex; flex-direction: column;
+  width: min(420px, 100%); max-height: calc(100dvh - 2rem);
+  background: var(--paper); border-radius: 6px; overflow: hidden;
+  box-shadow: 0 40px 90px rgba(0,0,0,.45);
+  animation: opop-in .45s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes opop-in {
+  from { opacity: 0; transform: translateY(18px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+.opop__poster {
+  display: block; min-height: 0; background: var(--navy);
+}
+.opop__poster img {
+  width: 100%; height: 100%; object-fit: contain;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.opop__poster:hover img { transform: scale(1.02); }
+.opop__body {
+  flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  padding: 1.1rem clamp(1.1rem, 3vw, 1.5rem) 1.2rem;
+  border-top: 1px solid var(--line-2);
+}
+.opop__title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.15rem; line-height: 1.2; letter-spacing: -.02em;
+  color: var(--ink);
+}
+.opop__title em { font-style: normal; color: var(--gold); }
+.opop__serves {
+  display: block; margin-top: .15rem;
+  font-family: var(--font-nav); font-size: .66rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft);
+}
+.opop__lead { margin-top: .5rem; color: var(--ink-soft); font-size: .92rem; }
+.opop__actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.opop__actions .btn { padding: .8rem 1.5rem; }
+.opop__dismiss {
+  font-family: var(--font-nav); font-size: .74rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-soft); transition: color .25s ease;
+}
+.opop__dismiss:hover { color: var(--ink); }
+.opop__close {
+  position: absolute; top: .6rem; right: .6rem; z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%; font-size: 1.6rem; line-height: 1;
+  display: grid; place-items: center;
+  color: var(--ink); background: rgba(250,248,243,.9);
+  transition: background .25s ease, transform .25s ease;
+}
+.opop__close:hover { background: var(--gold); color: #fff; transform: rotate(90deg); }
+
+/* ============ ONAM — PAGE ============ */
+.onam { padding-top: 0; }
+.onam__hero {
+  position: relative; display: grid; align-items: end;
+  min-height: clamp(420px, 62vh, 620px);
+  padding-top: calc(96px + env(safe-area-inset-top));
+  padding-bottom: clamp(2.6rem, 6vw, 5rem);
+  background: var(--navy); overflow: hidden;
+}
+.onam__heroimg { position: absolute; inset: 0; }
+.onam__heroimg img { object-fit: cover; opacity: .34; }
+.onam__hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(18,32,58,.5) 0%, rgba(18,32,58,.86) 78%);
+}
+.onam__herotext { position: relative; z-index: 1; color: var(--paper); }
+.eyebrow--light { color: var(--gold-2); }
+.eyebrow--light::before { background: var(--gold-2); }
+.onam__title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1.04; letter-spacing: -.035em;
+}
+.onam__title em { font-style: normal; color: var(--gold-2); }
+.onam__lead {
+  margin-top: 1.2rem; margin-bottom: 2rem;
+  max-width: 52ch; font-size: 1.06rem; color: rgba(250,248,243,.8);
+}
+
+/* poster + contents, side by side */
+.osadhya {
+  display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: clamp(1.6rem, 4vw, 3.2rem); align-items: start;
+}
+.osadhya__poster img {
+  width: 100%; height: auto; border-radius: 6px;
+  box-shadow: 0 24px 60px -26px rgba(10,16,28,.45);
+}
+.osadhya__detail {
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  background: #fff; border: 1px solid var(--line-2); border-radius: 6px;
+}
+.osadhya__pricebox {
+  display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap;
+  padding-bottom: 1.3rem; margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line-2);
+}
+.osadhya__amount {
+  font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.2rem);
+  font-weight: 800; letter-spacing: -.04em; color: var(--gold); line-height: 1;
+}
+.osadhya__serves {
+  font-family: var(--font-nav); font-size: .72rem; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft);
+}
+.osadhya__items {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .55rem 1.4rem; margin-bottom: 1.8rem;
+}
+.osadhya__items li {
+  display: flex; align-items: baseline; justify-content: space-between; gap: .6rem;
+  padding: .4rem 0; border-bottom: 1px dotted var(--line-2);
+}
+.osadhya__en { font-size: .93rem; color: var(--ink); }
+.osadhya__ml { font-size: .88rem; color: var(--ink-soft); white-space: nowrap; }
+
+/* payasam add-ons */
+.opayasam {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  background: var(--navy); border-radius: 6px; color: var(--paper);
+}
+.opayasam__head h3 {
+  font-family: var(--font-display); font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  font-weight: 700; letter-spacing: -.02em;
+}
+.opayasam__head p { margin-top: .4rem; color: rgba(250,248,243,.7); font-size: .95rem; }
+.opayasam__grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; margin-top: 1.6rem;
+}
+.opayasam__card {
+  display: grid; gap: .25rem; padding: 1.1rem 1.3rem;
+  background: rgba(255,255,255,.06); border: 1px solid var(--line-light);
+  border-radius: 4px;
+}
+.opayasam__name { font-weight: 600; font-size: 1rem; }
+.opayasam__ml { font-size: .85rem; color: rgba(250,248,243,.62); }
+.opayasam__price {
+  margin-top: .35rem;
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+  letter-spacing: -.03em; color: var(--gold-2);
+}
+.opayasam__price i {
+  font-style: normal; font-family: var(--font-nav); font-size: .66rem;
+  font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(250,248,243,.6); margin-left: .2rem;
+}
+
+/* collection point & timings */
+.ocollect {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem; margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line);
+}
+.ocollect__item { display: grid; gap: .4rem; }
+.ocollect__label {
+  font-family: var(--font-nav); font-size: .66rem; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--gold);
+}
+.ocollect__item strong {
+  font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.45;
+}
+
+.onam__book { background: var(--paper-2); }
+.obook {
+  background: #fff; border: 1px solid var(--line-2); border-radius: 6px;
+  padding: clamp(.6rem, 1.5vw, 1.2rem);
+}
+.obook__frame {
+  display: block; width: 100%; height: clamp(620px, 88vh, 1200px);
+  border: 0; border-radius: 4px;
+}
+.obook__fallback {
+  padding: .9rem .4rem .3rem; text-align: center;
+  font-size: .9rem; color: var(--ink-soft);
+}
+.obook__fallback a { color: var(--gold); font-weight: 600; }
+.obook__fallback a:hover { text-decoration: underline; }
+.obook__closed {
+  padding: clamp(2.2rem, 5vw, 3.6rem); text-align: center;
+  background: #fff; border: 1px solid var(--line-2); border-radius: 6px;
+}
+.obook__closed h3 {
+  font-family: var(--font-display); font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  font-weight: 700; letter-spacing: -.02em; color: var(--ink);
+}
+.obook__closed p {
+  margin: .9rem auto 0; max-width: 52ch; color: var(--ink-soft);
+}
+.obook__closed code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em;
+  background: var(--paper-2); padding: .12em .45em; border-radius: 3px;
+}
+.obook__actions {
+  display: flex; justify-content: center; align-items: center;
+  gap: 1rem; flex-wrap: wrap; margin-top: 1.7rem;
+}
+.obook__actions .btn svg { width: 17px; height: 17px; }
+.obook__direct {
+  margin-top: 2.4rem; padding-top: 2.2rem; border-top: 1px solid var(--line);
+  text-align: center;
+}
+.obook__direct > p {
+  font-family: var(--font-nav); font-size: .74rem; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft);
+}
+.obook__direct .obook__actions { margin-top: 1.1rem; }
+.obook__phone {
+  display: inline-flex; align-items: center; gap: .55rem;
+  font-family: var(--font-nav); font-size: .9rem; font-weight: 600;
+  color: var(--ink); transition: color .25s ease;
+}
+.obook__phone svg { width: 17px; height: 17px; color: var(--gold); }
+.obook__phone:hover { color: var(--gold); }
+.onam__back { padding-bottom: clamp(3rem, 7vw, 5rem); }
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 960px) {
   .about__grid, .team__grid, .contact__grid { grid-template-columns: 1fr; }
@@ -568,6 +856,28 @@ body {
   .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
   .stat:nth-child(3) { border-left: none; padding-left: 0; }
   .footer__grid { grid-template-columns: 1fr 1fr; }
+  .osadhya { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
+  .opayasam__grid { grid-template-columns: 1fr; }
+  .ocollect { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .opop { padding: .75rem; }
+  .opop__panel { max-height: calc(100dvh - 1.5rem); }
+  .opop__body { justify-content: center; text-align: center; padding-block: .9rem 1rem; }
+  .opop__actions { width: 100%; justify-content: center; }
+  .ostrip__inner { flex-direction: column; align-items: flex-start; }
+  .ostrip__cta { width: 100%; }
+  .ostrip__cta .btn { width: 100%; }
+  .obook__frame { height: clamp(560px, 82vh, 900px); }
+  .osadhya__items { grid-template-columns: 1fr; }
+  .ocollect { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ostrip__dot { animation: none; }
+  .opop, .opop__panel { animation: none; }
+  .opkg:hover { transform: none; }
 }
 
 @media (max-width: 720px) {
