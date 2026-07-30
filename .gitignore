@@ -25,7 +25,9 @@ yarn-error.log*
 /IMG_*.JPEG
 /logo-no-bg.png
 /onam package poster.jpg
+# uncompressed reel sources — encoded copies live in /public/videos
 /MODERN final.mp4
+/Modern*.mp4
 /public/scripts/compress.log
 
 Modern Food Menu.pdf
