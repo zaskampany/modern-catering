@@ -902,6 +902,13 @@ body {
   font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
   color: rgba(250,248,243,.6); margin-left: .2rem;
 }
+.opayasam__cta {
+  display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.5rem;
+  font-family: var(--font-nav); font-size: .76rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--gold-2);
+  transition: gap .25s ease, color .25s ease;
+}
+.opayasam__cta:hover { gap: .9rem; color: #fff; }
 
 /* collection point & timings */
 /* auto-fit so the row reflows cleanly as items are added or removed, rather
@@ -951,6 +958,27 @@ body {
   border: 0; border-radius: 4px;
 }
 /* ---- themed booking form (posts to the Google Form) ---- */
+/* sadhya vs payasam — two separate orders, so two forms behind one switch */
+.obf__tabs {
+  display: flex; gap: .5rem; padding: clamp(.9rem, 2vw, 1.2rem) clamp(1.4rem, 3vw, 2.4rem) 0;
+  border-bottom: 1px solid var(--line-2); flex-wrap: wrap;
+}
+.obf__tab {
+  position: relative; padding: .85rem 1.4rem;
+  font-family: var(--font-nav); font-size: .76rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-soft); background: none;
+  transition: color .25s ease;
+}
+.obf__tab::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: var(--gold); transform: scaleX(0); transform-origin: center;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.obf__tab:hover { color: var(--ink); }
+.obf__tab.is-active { color: var(--gold); }
+.obf__tab.is-active::after { transform: scaleX(1); }
+
 .obf { display: grid; gap: 1.5rem; padding: clamp(1.4rem, 3vw, 2.4rem); }
 .obf__when {
   display: grid; gap: .55rem;
@@ -1071,6 +1099,8 @@ body {
   transition: background .2s, color .2s;
 }
 .obf__drop:hover { background: rgba(184,60,60,.12); color: #8c2f2f; }
+.obf__drop:disabled { opacity: .3; cursor: default; }
+.obf__drop:disabled:hover { background: transparent; color: var(--ink-soft); }
 .obf__add {
   display: inline-flex; align-items: center; gap: .6rem; align-self: start;
   padding: .6rem 1.1rem .6rem .6rem;

@@ -95,11 +95,14 @@ export default function OnamPage() {
               </Reveal>
             </div>
 
-            {/* PAYASAM ADD-ONS */}
+            {/* PAYASAM — a separate order, not an add-on */}
             <Reveal className="opayasam">
               <div className="opayasam__head">
-                <h3>Extra payasam</h3>
-                <p>Want more than the two litres included? Add any of these by the litre.</p>
+                <h3>Payasam, by the litre</h3>
+                <p>
+                  Ordered on its own, with or without a sadhya. Collect from{" "}
+                  {pickup.split(",")[0]}, {payasamTime.toLowerCase()} on Thiruvonam day.
+                </p>
               </div>
               <div className="opayasam__grid">
                 {payasams.map((p) => (
@@ -110,6 +113,9 @@ export default function OnamPage() {
                   </div>
                 ))}
               </div>
+              {!soldOut && (
+                <a href="#book" className="opayasam__cta">Order payasam →</a>
+              )}
             </Reveal>
 
             {/* COLLECTION */}
@@ -177,12 +183,12 @@ export default function OnamPage() {
             <Reveal className="section__head">
               <p className="eyebrow">Reserve Your Date</p>
               <h2 className="title">
-                {soldOut ? <>Bookings are <em>closed</em></> : <>Book your <em>sadhya</em></>}
+                {soldOut ? <>Bookings are <em>closed</em></> : <>Place your <em>order</em></>}
               </h2>
               <p className="section__lead">
                 {soldOut
                   ? `We're fully committed for Onam ${year}. Leave us a message and we'll reach out first when next season opens.`
-                  : "Fill in the form below and we'll confirm your slot by phone. It takes about a minute."}
+                  : "Ordering a sadhya or just payasam? Pick below, and we'll confirm your order by phone. It takes about a minute."}
               </p>
             </Reveal>
 
