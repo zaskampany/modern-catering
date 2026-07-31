@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
@@ -10,6 +12,7 @@ import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
 import OnamStrip from "@/components/OnamStrip";
 import OnamPopup from "@/components/OnamPopup";
+import TeamPeople from "@/components/TeamPeople";
 import { IconPin, IconPhone, IconMail, IconWhatsApp } from "@/components/Icons";
 import { site, mailLink, whatsappLink } from "@/lib/site";
 
@@ -29,6 +32,20 @@ const stats = [
   ["6,000+", "Events Catered"],
   ["150+", "Menu Options"],
   ["100%", "Guests Delighted"],
+];
+
+// The people who run it. Drop a square (1:1) photo into /public/images under
+// the filename below and it appears on the next build — until then the card
+// falls back to the person's initials, so a missing file never 404s.
+const photo = (file) =>
+  existsSync(join(process.cwd(), "public", "images", file)) ? `/images/${file}` : "";
+
+const team = [
+  { name: "Suresh U", role: "Founder", img: photo("team-suresh.webp") },
+  // Cut-out PNG, so it keeps its alpha channel — no WebP conversion.
+  { name: "Sooraj Suresh", role: "Manager", img: photo("manager.png") },
+  { name: "Manoj", role: "Executive Chef", img: photo("team-manoj.webp") },
+  { name: "Vinnetha", role: "Office Staff", img: photo("team-vinnetha.webp") },
 ];
 
 export default function Home() {
@@ -166,6 +183,13 @@ export default function Home() {
             <Reveal className="team__media">
               <Image src="/images/team3.webp" alt="The Modern Catering service team in uniform" fill sizes="(max-width: 960px) 100vw, 45vw" />
             </Reveal>
+          </div>
+
+          <div className="container">
+            <Reveal className="tpeople__head">
+              <h3>The people you&apos;ll work with</h3>
+            </Reveal>
+            <TeamPeople people={team} />
           </div>
         </section>
 
