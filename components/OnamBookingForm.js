@@ -59,6 +59,19 @@ const OTHER = "__other_option__";
 let rowSeq = 0;
 const newRow = () => ({ key: ++rowSeq, kind: "", qty: 1 });
 
+// Indian digit grouping (2,800 / 28,000 / 2,80,000). Written out rather than
+// using toLocaleString so the server and browser can't disagree on the format.
+function inr(n) {
+  const s = String(Math.round(n));
+  if (s.length <= 3) return `₹${s}`;
+  const last3 = s.slice(-3);
+  const rest = s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+  return `₹${rest},${last3}`;
+}
+
+const SADHYA_PRICE = Number(onam.sadhya.price) || 0;
+const PAYASAM_PRICE = Number(onam.payasams[0]?.price) || 0;
+
 const FOCUS_TARGET = {
   name: "#obf-name",
   phone: "#obf-phone",
@@ -88,10 +101,34 @@ export default function OnamBookingForm() {
   const [tab, setTab] = useState("sadhya");
   const [status, setStatus] = useState("idle"); // idle | sending | done | error
   const [packages, setPackages] = useState("1");
+  const [moreCount, setMoreCount] = useState("");
   const [rows, setRows] = useState([newRow()]);
   const [errors, setErrors] = useState({});
+  const [placed, setPlaced] = useState(null); // estimate kept for the confirmation
 
   const isPayasam = tab === "payasam";
+
+  // Live estimate. Quantities drive it, so it updates as the order is built.
+  const estimate = (() => {
+    const lines = [];
+    if (isPayasam) {
+      for (const r of rows) {
+        const opt = PAYASAMS.find((p) => p.value === r.kind);
+        if (!opt) continue;
+        const qty = Math.max(1, Number(r.qty) || 1);
+        lines.push({ label: `${opt.name}, ${qty} ltr`, amount: qty * PAYASAM_PRICE });
+      }
+    } else {
+      const n = packages === OTHER ? Number(moreCount) || 0 : Number(packages) || 0;
+      if (n > 0) {
+        lines.push({
+          label: `Sadhya × ${n} (serves ${n * Number(onam.sadhya.serves || 0)})`,
+          amount: n * SADHYA_PRICE,
+        });
+      }
+    }
+    return { lines, total: lines.reduce((s, l) => s + l.amount, 0) };
+  })();
 
   const clearErr = (key) =>
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
@@ -159,6 +196,15 @@ export default function OnamBookingForm() {
       data.delete(`${F.packages}.other_option_response`);
     }
 
+    // Sent as x-www-form-urlencoded, matching a real Google Form submission.
+    // Handing fetch a FormData object instead makes it multipart/form-data,
+    // which /formResponse does not reliably parse — the request succeeds but
+    // the row never appears. Repeated keys survive the conversion.
+    const body = new URLSearchParams();
+    for (const [k, v] of data.entries()) body.append(k, v);
+    body.append("fvv", "1");
+    body.append("pageHistory", "0");
+
     setStatus("sending");
     try {
       // The response is opaque (no CORS on Google Forms), so this confirms the
@@ -166,11 +212,14 @@ export default function OnamBookingForm() {
       await fetch(isPayasam ? onam.payasamFormPostUrl : onam.formPostUrl, {
         method: "POST",
         mode: "no-cors",
-        body: data,
+        body,
       });
+      // Snapshot before the reset wipes the inputs the estimate is built from.
+      setPlaced({ ...estimate, type: isPayasam ? "payasam" : "sadhya" });
       setStatus("done");
       form.reset();
       setPackages("1");
+      setMoreCount("");
       setRows([newRow()]);
     } catch {
       setStatus("error");
@@ -178,13 +227,51 @@ export default function OnamBookingForm() {
   };
 
   if (status === "done") {
+    const placedPayasam = placed?.type === "payasam";
     return (
       <div className="obf obf--done" role="status">
         <span className="obf__tick" aria-hidden="true">✓</span>
 
+        <p className="obf__kind">
+          {placedPayasam ? "Payasam Order" : "Onam Sadhya Booking"}
+        </p>
+
         <h3 lang="ml">🎉 നിങ്ങളുടെ ബുക്കിംഗ് വിജയകരമായി ലഭിച്ചു!</h3>
 
-        <p lang="ml">നിങ്ങളുടെ ഓണസദ്യ ബുക്കിംഗ് വിജയകരമായി സ്വീകരിച്ചിരിക്കുന്നു.</p>
+        {/* the noun changes with what was actually ordered */}
+        <p lang="ml">
+          {placedPayasam
+            ? "നിങ്ങളുടെ പായസം ഓർഡർ വിജയകരമായി സ്വീകരിച്ചിരിക്കുന്നു."
+            : "നിങ്ങളുടെ ഓണസദ്യ ബുക്കിംഗ് വിജയകരമായി സ്വീകരിച്ചിരിക്കുന്നു."}
+        </p>
+
+        {placed && placed.total > 0 && (
+          <div className="obf__est obf__est--placed">
+            {placed.lines.map((l) => (
+              <p className="obf__estline" key={l.label}>
+                <span>{l.label}</span>
+                <span>{inr(l.amount)}</span>
+              </p>
+            ))}
+            <p className="obf__estsum">
+              <span>Estimated total</span>
+              <strong>{inr(placed.total)}</strong>
+            </p>
+            <p className="obf__estnote">
+              An estimate only. We&apos;ll confirm the final amount on the call.
+            </p>
+          </div>
+        )}
+
+        {/* the two order types have different collection windows */}
+        <p className="obf__collect">
+          <IconCalendar aria-hidden="true" />
+          <span>
+            Collect on <strong>{onam.collectionDateLabel}</strong>,{" "}
+            {placedPayasam ? onam.payasamTime.toLowerCase() : onam.sadhyaTime}, from{" "}
+            {onam.pickup}.
+          </span>
+        </p>
 
         <p lang="ml">
           ഓർഡർ സ്ഥിരീകരിക്കുന്നതിനും തുടർ വിവരങ്ങൾ അറിയിക്കുന്നതിനുമായി ഞങ്ങളുടെ ടീം
@@ -432,7 +519,11 @@ export default function OnamBookingForm() {
                     placeholder="How many?"
                     aria-label="Number of packages"
                     aria-invalid={errors.packages ? true : undefined}
-                    onInput={() => clearErr("packages")}
+                    value={moreCount}
+                    onChange={(e) => {
+                      clearErr("packages");
+                      setMoreCount(e.target.value);
+                    }}
                   />
                 )}
               </div>
@@ -455,6 +546,24 @@ export default function OnamBookingForm() {
               placeholder="Collection time, dietary notes, anything else"
             />
           </div>
+
+          {estimate.total > 0 && (
+            <div className="obf__est">
+              {estimate.lines.map((l) => (
+                <p className="obf__estline" key={l.label}>
+                  <span>{l.label}</span>
+                  <span>{inr(l.amount)}</span>
+                </p>
+              ))}
+              <p className="obf__estsum">
+                <span>Estimated total</span>
+                <strong>{inr(estimate.total)}</strong>
+              </p>
+              <p className="obf__estnote">
+                An estimate only. We&apos;ll confirm the final amount when we call.
+              </p>
+            </div>
+          )}
 
           <div className="obf__submit">
             <button type="submit" className="btn btn--gold" disabled={status === "sending"}>
