@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { IconCalendar } from "@/components/Icons";
+import { IconCalendar, IconPin } from "@/components/Icons";
 import { onam } from "@/lib/site";
 
 // Field ids belong to the live "Onam Sadya Booking Form - Modern Catering".
@@ -12,11 +12,12 @@ import { onam } from "@/lib/site";
 // source, and read the FB_PUBLIC_LOAD_DATA_ blob — each question's entry id is
 // the first value of its field array. If they ever drift, set
 // NEXT_PUBLIC_ONAM_FORM_EMBED=yes to fall back to the plain embed.
+// The form's "Delivery Address" question was removed when the offer became
+// collection-only, so there is no address field here either.
 const F = {
   name: "entry.799352743",
   phone: "entry.318397183",
   packages: "entry.681656497",
-  address: "entry.1725755080",
   payasam: "entry.1306248642",
   notes: "entry.2005561238",
 };
@@ -39,12 +40,11 @@ let rowSeq = 0;
 const newRow = () => ({ key: ++rowSeq, kind: "", qty: 1 });
 
 // Checked in this order, so the page scrolls to the topmost problem first.
-const FIELD_ORDER = ["name", "phone", "packages", "address", "payasam"];
+const FIELD_ORDER = ["name", "phone", "packages", "payasam"];
 const FOCUS_TARGET = {
   name: "#obf-name",
   phone: "#obf-phone",
   packages: "input[name$='other_option_response'], #obf-packages-more",
-  address: "#obf-address",
   payasam: ".obf__addonpick",
 };
 
@@ -71,10 +71,6 @@ function validate(data, addons) {
     const count = Number(data.get(`${F.packages}.other_option_response`));
     if (!count) errors.packages = "Tell us how many sadhya packages you need.";
     else if (count < 4) errors.packages = "For 3 or fewer, please pick a number above.";
-  }
-
-  if (!String(data.get(F.address) || "").trim()) {
-    errors.address = "We deliver to your door, so please add an address.";
   }
 
   if (addons.some((r) => !r.kind)) {
@@ -190,14 +186,23 @@ export default function OnamBookingForm() {
   return (
     /* noValidate — the browser's own bubbles are replaced by the messages below */
     <form className="obf" onSubmit={onSubmit} noValidate>
-      {onam.deliveryDateLabel && (
-        <p className="obf__when">
-          <IconCalendar aria-hidden="true" />
+      <div className="obf__when">
+        {onam.collectionDateLabel && (
+          <p>
+            <IconCalendar aria-hidden="true" />
+            <span>
+              Collect on <strong>{onam.collectionDateLabel}</strong>, Thiruvonam day.
+            </span>
+          </p>
+        )}
+        <p>
+          <IconPin aria-hidden="true" />
           <span>
-            Delivering on <strong>{onam.deliveryDateLabel}</strong>, Thiruvonam day.
+            <strong>No delivery.</strong> All orders are collected from{" "}
+            {onam.pickup}. Sadhya {onam.sadhyaTime}, payasam {onam.payasamTime.toLowerCase()}.
           </span>
         </p>
-      )}
+      </div>
 
       <div className="obf__row">
         <div className="obf__field">
@@ -289,23 +294,6 @@ export default function OnamBookingForm() {
         </p>
       </fieldset>
 
-      <div className="obf__field obf__field--full">
-        <label htmlFor="obf-address">
-          Delivery Address <span lang="ml">/ ഡെലിവറി വിലാസം</span>
-        </label>
-        <textarea
-          id="obf-address"
-          name={F.address}
-          rows={3}
-          placeholder="House name, street, landmark, area"
-          className={errors.address ? "is-invalid" : undefined}
-          aria-invalid={errors.address ? true : undefined}
-          aria-describedby={errors.address ? "obf-address-err" : undefined}
-          onInput={() => clearErr("address")}
-        />
-        {errors.address && <p className="obf__err" id="obf-address-err">{errors.address}</p>}
-      </div>
-
       <fieldset className="obf__field obf__field--full">
         <legend>
           Add-on Payasam <span lang="ml">/ അധിക പായസം</span>{" "}
@@ -383,7 +371,7 @@ export default function OnamBookingForm() {
           id="obf-notes"
           name={F.notes}
           rows={2}
-          placeholder="Delivery time, dietary notes, anything else"
+          placeholder="Collection time, dietary notes, anything else"
         />
       </div>
 

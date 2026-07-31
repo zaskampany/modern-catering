@@ -3,8 +3,8 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Reveal from "@/components/Reveal";
 import OnamBookingForm from "@/components/OnamBookingForm";
-import { IconPhone, IconWhatsApp } from "@/components/Icons";
-import { onam, whatsappLink } from "@/lib/site";
+import { IconPhone, IconWhatsApp, IconPin } from "@/components/Icons";
+import { onam, map, whatsappLink } from "@/lib/site";
 
 export const metadata = {
   title: `Onam Sadhya ${onam.year} | Modern Catering, Thrissur`,
@@ -20,7 +20,7 @@ export default function OnamPage() {
   const {
     soldOut, sadhya, payasams, formEmbedUrl, formPostUrl, formEmbed, formUrl, year,
     poster, pickup, sadhyaTime, payasamTime, bookingPhone, onSwiggy, onZomato,
-    deliveryDateLabel,
+    collectionDateLabel,
   } = onam;
 
   return (
@@ -115,8 +115,8 @@ export default function OnamPage() {
             {/* COLLECTION */}
             <Reveal className="ocollect">
               <div className="ocollect__item">
-                <span className="ocollect__label">Delivery Date</span>
-                <strong>{deliveryDateLabel}</strong>
+                <span className="ocollect__label">Collection Date</span>
+                <strong>{collectionDateLabel}</strong>
               </div>
               <div className="ocollect__item">
                 <span className="ocollect__label">Collection Point</span>
@@ -138,6 +138,35 @@ export default function OnamPage() {
                   </strong>
                 </div>
               )}
+            </Reveal>
+
+            {/* MAP — collection only, so finding the place matters */}
+            <Reveal className="omap">
+              <div className="omap__text">
+                <h3>No delivery. Collect from us.</h3>
+                <p>
+                  Every sadhya is collected in person from {pickup}. We don&apos;t
+                  deliver to home addresses, so please plan to pick your order up
+                  within the collection window.
+                </p>
+                <a
+                  href={map.link}
+                  className="btn btn--dark"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconPin /> Get Directions
+                </a>
+              </div>
+              <div className="omap__frame">
+                <iframe
+                  src={map.embedUrl}
+                  title={`Map to ${pickup}`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
             </Reveal>
           </div>
         </section>
