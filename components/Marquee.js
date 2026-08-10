@@ -3,41 +3,37 @@ import { Children, cloneElement, useEffect, useRef } from "react";
 
 /**
  * Auto-scrolling, swipeable horizontal marquee.
- * Children are duplicated once so the scroll can loop seamlessly. The track is a
- * native scroll container, so touch swipe / drag works; a rAF loop nudges it
- * along and pauses while the user interacts or hovers.
+ * Children are duplicated once so the scroll can loop seamlessly. Instead of
+ * driving the container's native scrollLeft (which fights iOS momentum
+ * scrolling and jitters on mobile), a rAF loop translates the track with a
+ * GPU-composited transform. Pointer events let the user drag to browse.
  */
 export default function Marquee({ children, speed = 0.5, className = "", trackClassName = "" }) {
-  const scrollerRef = useRef(null);
+  const trackRef = useRef(null);
   const pausedRef = useRef(false);
   const resumeTimer = useRef(null);
+  const posRef = useRef(0);          // current translateX (<= 0, moving left)
+  const dragRef = useRef(null);      // { startX, startPos } while dragging
   const items = Children.toArray(children);
 
   useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
+    const track = trackRef.current;
+    if (!track) return;
     let raf;
-    // Track position as a float; scrollLeft is integer-rounded by the browser,
-    // so speeds < 1px/frame would otherwise never accumulate.
-    let pos = 1;
-    el.scrollLeft = pos;
+
+    const wrap = (half) => {
+      if (half <= 0) return;
+      // keep pos within (-half, 0] so the two duplicated halves loop seamlessly
+      while (posRef.current <= -half) posRef.current += half;
+      while (posRef.current > 0) posRef.current -= half;
+    };
+
     const tick = () => {
-      const h = el.scrollWidth / 2;
-      if (!pausedRef.current) {
-        pos += speed;
-        if (h > 0) {
-          if (pos >= h) pos -= h;
-          else if (pos < 0) pos += h;
-        }
-        el.scrollLeft = pos;
-      } else {
-        // user is swiping — follow their scroll and wrap for a seamless loop
-        pos = el.scrollLeft;
-        if (h > 0) {
-          if (pos >= h) { pos -= h; el.scrollLeft = pos; }
-          else if (pos <= 0) { pos += h; el.scrollLeft = pos; }
-        }
-      }
+      const half = track.scrollWidth / 2;
+      if (!pausedRef.current) posRef.current -= speed;
+      wrap(half);
+      // Round to the device pixel to avoid sub-pixel shimmer, keep it composited.
+      track.style.transform = `translate3d(${posRef.current.toFixed(2)}px,0,0)`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -53,18 +49,34 @@ export default function Marquee({ children, speed = 0.5, className = "", trackCl
     resumeTimer.current = setTimeout(() => { pausedRef.current = false; }, delay);
   };
 
+  const onPointerDown = (e) => {
+    pause();
+    dragRef.current = { startX: e.clientX, startPos: posRef.current };
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+  const onPointerMove = (e) => {
+    if (!dragRef.current) return;
+    posRef.current = dragRef.current.startPos + (e.clientX - dragRef.current.startX);
+  };
+  const endDrag = (e) => {
+    if (dragRef.current) {
+      dragRef.current = null;
+      e.currentTarget.releasePointerCapture?.(e.pointerId);
+    }
+    resume(600);
+  };
+
   return (
     <div
-      ref={scrollerRef}
       className={`marquee ${className}`}
       onMouseEnter={pause}
       onMouseLeave={() => resume()}
-      onPointerDown={pause}
-      onPointerUp={() => resume(600)}
-      onTouchStart={pause}
-      onTouchEnd={() => resume(600)}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
     >
-      <div className={`marquee__track ${trackClassName}`}>
+      <div ref={trackRef} className={`marquee__track ${trackClassName}`}>
         {items.map((c, i) => cloneElement(c, { key: `a-${i}` }))}
         {items.map((c, i) => cloneElement(c, { key: `b-${i}`, "aria-hidden": true }))}
       </div>

@@ -101,8 +101,8 @@ export default function OnamPopup() {
           <Image
             src={onam.poster}
             alt={`Modern Catering Onam Sadhya ${onam.year}: ₹${onam.sadhya.price} for ${onam.sadhya.serves} members. Tap for full details.`}
-            width={1000}
-            height={1333}
+            width={1080}
+            height={1350}
             priority
           />
         </Link>

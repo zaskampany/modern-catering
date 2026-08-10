@@ -38,7 +38,7 @@ export default function OnamStrip() {
           <p className="ostrip__lead">
             {soldOut
               ? "Thank you for the wonderful response. Every order is taken, but we're still catering all other events."
-              : `A full traditional sadhya on Thiruvonam day, ${onam.sadhya.items.length} items including two litres of payasam. Collect from Kolazhi.`}
+              : `A full traditional sadhya on Thiruvonam day, ${onam.sadhya.items.length} items including two litres of payasam. Collect from Kolazhy.`}
           </p>
 
           <div className="ostrip__cta">
@@ -60,8 +60,8 @@ export default function OnamStrip() {
             <Image
               src={onam.poster}
               alt={`Modern Catering Onam Sadhya ${onam.year}: ₹${onam.sadhya.price} for ${onam.sadhya.serves} members`}
-              width={1000}
-              height={1333}
+              width={1080}
+              height={1350}
               sizes="(max-width: 720px) 78vw, (max-width: 960px) 40vw, 300px"
             />
           </Link>

@@ -360,10 +360,9 @@ body {
 }
 
 /* ============ MARQUEE (auto-scroll + swipeable) ============ */
-.marquee { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x; cursor: grab; }
+.marquee { overflow: hidden; touch-action: pan-y; cursor: grab; -webkit-user-select: none; user-select: none; }
 .marquee:active { cursor: grabbing; }
-.marquee::-webkit-scrollbar { display: none; }
-.marquee__track { display: flex; width: max-content; }
+.marquee__track { display: flex; width: max-content; will-change: transform; }
 
 /* ============ GALLERY (swipeable collage carousel) ============ */
 .gallery { background: var(--paper); overflow: hidden; }

@@ -8,10 +8,10 @@ import { onam, map, whatsappLink } from "@/lib/site";
 
 export const metadata = {
   title: `Onam Sadhya ${onam.year} | Modern Catering, Thrissur`,
-  description: `Onam sadhya ₹${onam.sadhya.price} for ${onam.sadhya.serves} members, from Modern Catering, Kolazhi. Full traditional banana-leaf sadhya on Thiruvonam day. Book your order.`,
+  description: `Onam sadhya ₹${onam.sadhya.price} for ${onam.sadhya.serves} members, from Modern Catering, Kolazhy. Full traditional banana-leaf sadhya on Thiruvonam day. Book your order.`,
   openGraph: {
     title: `Onam Sadhya ${onam.year}: ₹${onam.sadhya.price} for ${onam.sadhya.serves} | Modern Catering`,
-    description: `A full traditional Onam sadhya on Thiruvonam day, from Modern Catering, Kolazhi, Thrissur.`,
+    description: `A full traditional Onam sadhya on Thiruvonam day, from Modern Catering, Kolazhy, Thrissur.`,
     images: ["/images/s304.jpg"],
   },
 };
@@ -19,7 +19,7 @@ export const metadata = {
 export default function OnamPage() {
   const {
     soldOut, sadhya, payasams, formEmbedUrl, formPostUrl, formEmbed, formUrl, year,
-    poster, pickup, sadhyaTime, payasamTime, bookingPhone, onSwiggy, onZomato,
+    pickup, sadhyaTime, payasamTime, bookingPhone, onSwiggy, onZomato,
     collectionDateLabel,
   } = onam;
 
@@ -43,7 +43,7 @@ export default function OnamPage() {
             <p className="onam__lead">
               {soldOut
                 ? `Every order for Onam ${year} has been taken. Thank you for the wonderful response. We're still catering all other events.`
-                : `A full traditional sadhya on Thiruvonam day, cooked fresh and packed on banana leaf. ₹${sadhya.price} for ${sadhya.serves} members, ready to collect from Kolazhi.`}
+                : `A full traditional sadhya on Thiruvonam day, cooked fresh and packed on banana leaf. ₹${sadhya.price} for ${sadhya.serves} members, ready to collect from Kolazhy.`}
             </p>
             {!soldOut && (
               <a href="#book" className="btn btn--gold">Book Your Sadhya</a>
@@ -66,7 +66,7 @@ export default function OnamPage() {
             <div className="osadhya">
               <Reveal className="osadhya__poster">
                 <Image
-                  src={poster}
+                  src="/images/onam-poster.webp"
                   alt={`Modern Catering Onam Sadhya ${year} poster: ₹${sadhya.price} for ${sadhya.serves} members`}
                   width={1000}
                   height={1333}

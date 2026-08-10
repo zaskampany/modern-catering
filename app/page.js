@@ -19,9 +19,9 @@ import { site, mailLink, whatsappLink } from "@/lib/site";
 
 
 const testimonials = [
-  ["The food was the highlight of our wedding. Every guest kept asking who the caterers were, and the service was flawless from start to finish.", "Anjali & Rahul", "Wedding, Thrissur", "A"],
-  ["Handled our office event for 400 people without a single hiccup. Punctual, professional and genuinely delicious.", "Deepak Menon", "Corporate Event", "D"],
-  ["From the live counters to the desserts, everything was top class. The team treated our family like their own.", "Suja Thomas", "Reception, Kolazhy", "S"],
+  ["We, Aksharayanam Group, like every year, ordered food from Modern Caterer this year. We ordered tea along with Sadya Vada for more than 700 people. They delivered the food very accurately, cleanly and very deliciously..", "Maya Vinod", "Corporate Event", "M"],
+  ["Very tasty food and responsible and hygienic staff. Would highly recommend for all sort of events.", "Austine Joy", "Corporate Event", "A"],
+  ["Really good catering service in Thrissur with tasty food and fair pricing. They are always on time and easy to work with for any function. The food quality is consistently good and guests enjoy it. A reliable choice for any event.", "Aryalatha Joseph", "Reception", "A"],
 ];
 
 // Every gallery image, split across two collage rows. Size classes (assigned
